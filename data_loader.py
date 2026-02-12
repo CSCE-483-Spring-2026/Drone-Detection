@@ -29,6 +29,9 @@ class DroneAudioDataset(IterableDataset):
         self.to_db_transform = torchaudio.transforms.AmplitudeToDB()
 
     def __iter__(self):
+        """ 
+        Yields spectrograph features and labels for each audio window in the dataset.
+        """
         for sample in self.ds:
             waveform = sample['audio']['array']
             label = sample['label']
