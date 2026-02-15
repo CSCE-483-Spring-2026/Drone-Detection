@@ -12,13 +12,14 @@ HOP_SIZE = 8000  # 0.5 second hop
 
 
 class DroneAudioDataset(IterableDataset):
-    def __init__(self, ds, window_size=WINDOW_SIZE, hop_size=HOP_SIZE, cap_length=None):
+    def __init__(self, ds, window_size=WINDOW_SIZE, hop_size=HOP_SIZE, cap_length=None, keep_prob=0.3):
         self.ds = ds
         self.window_size = window_size
         self.hop_size = hop_size
         self.cap_length = cap_length
         self.non_drone_windows = 0
         self.drone_windows = 0
+        self.keep_prob = keep_prob
 
         # initialize spectrograph and dB transforms
         self.spectrograph_transform = torchaudio.transforms.MelSpectrogram(
@@ -39,7 +40,7 @@ class DroneAudioDataset(IterableDataset):
 
             # attempt to balance classes by downsampling the majority class (drone) windows.
             if label == 1:
-                keep_prob = 0.3
+                keep_prob = self.keep_prob
                 windows = [w for w in windows if np.random.rand() < keep_prob]
                 self.drone_windows += len(windows)
 
