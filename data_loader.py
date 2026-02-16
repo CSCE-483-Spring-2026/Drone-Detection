@@ -39,7 +39,7 @@ class DroneAudioDataset(IterableDataset):
 
             # attempt to balance classes by downsampling the majority class (drone) windows.
             if label == 1:
-                keep_prob = 0.3
+                keep_prob = 0.85
                 windows = [w for w in windows if np.random.rand() < keep_prob]
                 self.drone_windows += len(windows)
 
