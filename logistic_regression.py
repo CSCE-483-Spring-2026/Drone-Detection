@@ -102,7 +102,7 @@ def main():
     criterion = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight(train_loader))
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-5)
 
-    num_epochs = 20
+    num_epochs = 50
     best_accuracy = 0.0
     best_valid_f1 = 0.0
     best_precision = 0.0
