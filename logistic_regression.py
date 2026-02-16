@@ -107,6 +107,7 @@ def main():
     best_valid_f1 = 0.0
     best_precision = 0.0
     best_recall = 0.0
+    best_epoch = 0
 
     for epoch in range(num_epochs):
         train_acc, train_loss = single_epoch(model, train_loader, criterion, optimizer)
@@ -120,12 +121,13 @@ def main():
             best_valid_f1 = valid_f1
             best_precision = valid_precision
             best_recall = valid_recall
+            best_epoch = epoch + 1
             torch.save(model.state_dict(), "best_logistic_model.pth")
 
     print(f"Train windows: {train_loader.dataset.drone_windows} drone, {train_loader.dataset.non_drone_windows} non-drone")
     print(f"Valid windows: {valid_loader.dataset.drone_windows} drone, {valid_loader.dataset.non_drone_windows} non-drone")
 
-    print(f"Best Validation Accuracy: {best_accuracy:.4f}, F1 Score: {best_valid_f1:.4f}, Precision: {best_precision:.4f}, Recall: {best_recall:.4f} from epoch {epoch+1}")
+    print(f"Best Validation Accuracy: {best_accuracy:.4f}, F1 Score: {best_valid_f1:.4f}, Precision: {best_precision:.4f}, Recall: {best_recall:.4f} from epoch {best_epoch}")
 
 if __name__ == "__main__":
     main()
