@@ -1,0 +1,8 @@
+name: serial_audio_plot
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - matplotlib
+  - pyserial
