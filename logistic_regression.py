@@ -22,10 +22,6 @@ def pos_weight(train_loader):
     
     return torch.tensor([negative_count / positive_count], dtype=torch.float32)
 
-    
-
-
-
 def single_epoch(model, data_loader, criterion, optimizer):
     model.train()
     total_loss = 0
@@ -96,8 +92,8 @@ def main():
     
     train_ds, valid_ds = train_valid_split(dataset)
 
-    train_loader = DataLoader(DroneAudioDataset(train_ds, cap_length=3), batch_size=32)
-    valid_loader = DataLoader(DroneAudioDataset(valid_ds, cap_length=3), batch_size=32)
+    train_loader = DataLoader(DroneAudioDataset(train_ds, cap_length=10), batch_size=32)
+    valid_loader = DataLoader(DroneAudioDataset(valid_ds, cap_length=10), batch_size=32)
 
     first_batch = next(iter(train_loader))
     input_size = first_batch['x'].shape[1]  # number of features
@@ -106,7 +102,13 @@ def main():
     criterion = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight(train_loader))
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-5)
 
-    num_epochs = 10
+    num_epochs = 50
+    best_accuracy = 0.0
+    best_valid_f1 = 0.0
+    best_precision = 0.0
+    best_recall = 0.0
+    best_epoch = 0
+
     for epoch in range(num_epochs):
         train_acc, train_loss = single_epoch(model, train_loader, criterion, optimizer)
         valid_acc, valid_precision, valid_recall, valid_f1, valid_loss, (true_positives, false_positives, true_negatives, false_negatives) = evaluate(model, valid_loader, criterion)
@@ -114,8 +116,18 @@ def main():
         print(f"Epoch {epoch+1}/{num_epochs} - Valid Loss: {valid_loss:.4f}, Valid Accuracy: {valid_acc:.4f}, Precision: {valid_precision:.4f}, Recall: {valid_recall:.4f}, F1 Score: {valid_f1:.4f}")
         print(f"Confusion Matrix: TP={true_positives}, FP={false_positives}, TN={true_negatives}, FN={false_negatives}")
 
+        if valid_acc > best_accuracy:
+            best_accuracy = valid_acc
+            best_valid_f1 = valid_f1
+            best_precision = valid_precision
+            best_recall = valid_recall
+            best_epoch = epoch + 1
+            torch.save(model.state_dict(), "best_logistic_model.pth")
+
     print(f"Train windows: {train_loader.dataset.drone_windows} drone, {train_loader.dataset.non_drone_windows} non-drone")
     print(f"Valid windows: {valid_loader.dataset.drone_windows} drone, {valid_loader.dataset.non_drone_windows} non-drone")
+
+    print(f"Best Validation Accuracy: {best_accuracy:.4f}, F1 Score: {best_valid_f1:.4f}, Precision: {best_precision:.4f}, Recall: {best_recall:.4f} from epoch {best_epoch}")
 
 if __name__ == "__main__":
     main()
