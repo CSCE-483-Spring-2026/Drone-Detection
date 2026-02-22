@@ -92,8 +92,8 @@ def main():
     
     train_ds, valid_ds = train_valid_split(dataset)
 
-    train_loader = DataLoader(DroneAudioDataset(train_ds, cap_length=10), batch_size=32)
-    valid_loader = DataLoader(DroneAudioDataset(valid_ds, cap_length=10), batch_size=32)
+    train_loader = DataLoader(DroneAudioDataset(train_ds, cap_length=10,train=True), batch_size=32)
+    valid_loader = DataLoader(DroneAudioDataset(valid_ds, cap_length=10, train=False), batch_size=32)
 
     first_batch = next(iter(train_loader))
     input_size = first_batch['x'].shape[1]  # number of features

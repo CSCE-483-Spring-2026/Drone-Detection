@@ -5,6 +5,7 @@ import numpy as np
 from collections import Counter
 from torch.utils.data import IterableDataset
 from torchaudio.transforms import MelSpectrogram, AmplitudeToDB
+from amplify import amplify
 
 SAMPLING_RATE = 16000  # 16 kHz
 WINDOW_SIZE = 16000  # 1 second window
@@ -12,13 +13,14 @@ HOP_SIZE = 8000  # 0.5 second hop
 
 
 class DroneAudioDataset(IterableDataset):
-    def __init__(self, ds, window_size=WINDOW_SIZE, hop_size=HOP_SIZE, cap_length=None):
+    def __init__(self, ds, window_size=WINDOW_SIZE, hop_size=HOP_SIZE, cap_length=None, train=True):
         self.ds = ds
         self.window_size = window_size
         self.hop_size = hop_size
         self.cap_length = cap_length
         self.non_drone_windows = 0
         self.drone_windows = 0
+        self.train = train
 
         # initialize spectrograph and dB transforms
         self.spectrograph_transform = torchaudio.transforms.MelSpectrogram(
@@ -49,10 +51,13 @@ class DroneAudioDataset(IterableDataset):
                 self.non_drone_windows += len(windows)
 
             for window in windows:
-                x = torch.from_numpy(window.astype(np.float32)).unsqueeze(0)
+                window - amplify(window, SAMPLING_RATE, train=self.train)
+                
+                
+                x = torch.as_tensor(window, dtype=torch.float32).unsqueeze(0)
                 spectrograph = self.to_db_transform(self.spectrograph_transform(x)).squeeze(0)
 
-                features = spectrograph.flatten().numpy()
+                features = spectrograph.flatten().cpu().numpy()
 
                 yield {'x': features, 'y': label}
     
