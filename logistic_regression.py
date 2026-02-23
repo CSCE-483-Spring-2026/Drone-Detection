@@ -128,7 +128,7 @@ def main():
             best_precision = valid_precision
             best_recall = valid_recall
             best_epoch = epoch + 1
-            torch.save(model.state_dict(), "best_logistic_model.pth")
+            torch.save({"model_state_dict": model.state_dict(),"input_dim": input_size}, "best_logistic_model.pth")
 
     print(f"Train windows: {train_loader.dataset.drone_windows} drone, {train_loader.dataset.non_drone_windows} non-drone")
     print(f"Valid windows: {valid_loader.dataset.drone_windows} drone, {valid_loader.dataset.non_drone_windows} non-drone")

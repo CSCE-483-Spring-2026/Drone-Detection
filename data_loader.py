@@ -53,7 +53,6 @@ class DroneAudioDataset(IterableDataset):
             for window in windows:
                 window = amplify(window, SAMPLING_RATE, train=self.train)
                 
-                
                 x = torch.as_tensor(window, dtype=torch.float32).unsqueeze(0)
                 spectrograph = self.to_db_transform(self.spectrograph_transform(x)).squeeze(0)
 
