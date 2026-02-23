@@ -22,15 +22,15 @@ def pos_weight(train_loader):
     
     return torch.tensor([negative_count / positive_count], dtype=torch.float32)
 
-def single_epoch(model, data_loader, criterion, optimizer):
+def single_epoch(model, data_loader, criterion, optimizer, device=None):
     model.train()
     total_loss = 0
     total_correct = 0
     total = 0
 
     for batch in data_loader:
-        x_batch = batch["x"].float()
-        y_batch = batch["y"].float().unsqueeze(1)
+        x_batch = batch["x"].float().to(next(model.parameters()).device)
+        y_batch = batch["y"].float().unsqueeze(1).to(next(model.parameters()).device)
 
         optimizer.zero_grad()
         logits = model(x_batch) 
@@ -49,7 +49,7 @@ def single_epoch(model, data_loader, criterion, optimizer):
     return total_correct/total, total_loss/total
 
 @torch.no_grad()
-def evaluate(model, data_loader, criterion):
+def evaluate(model, data_loader, criterion, device=None):
     model.eval()
     total_loss = 0
     total_correct = 0
@@ -60,8 +60,8 @@ def evaluate(model, data_loader, criterion):
     false_negatives = 0
 
     for batch in data_loader:
-        x_batch = batch["x"].float()
-        y_batch = batch["y"].float().unsqueeze(1)
+        x_batch = batch["x"].float().to(next(model.parameters()).device)
+        y_batch = batch["y"].float().unsqueeze(1).to(next(model.parameters()).device)
 
         logits = model(x_batch) 
         loss = criterion(logits, y_batch) 
@@ -88,18 +88,24 @@ def evaluate(model, data_loader, criterion):
 
 
 def main():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
+
     dataset = load_drone_audio_dataset()
     
     train_ds, valid_ds = train_valid_split(dataset)
 
-    train_loader = DataLoader(DroneAudioDataset(train_ds, cap_length=10,train=True), batch_size=32)
-    valid_loader = DataLoader(DroneAudioDataset(valid_ds, cap_length=10, train=False), batch_size=32)
+    train_loader = DataLoader(DroneAudioDataset(train_ds, cap_length=10,train=True), batch_size=1024, pin_memory=True)
+    valid_loader = DataLoader(DroneAudioDataset(valid_ds, cap_length=10, train=False), batch_size=1024, pin_memory=True)
 
     first_batch = next(iter(train_loader))
     input_size = first_batch['x'].shape[1]  # number of features
-    model = LogisticRegressionModel(input_dim = input_size)  
+    model = LogisticRegressionModel(input_dim = input_size).to(device)
 
-    criterion = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight(train_loader))
+    print(next(model.parameters()).device)
+
+    pw = pos_weight(train_loader).to(device)
+    criterion = torch.nn.BCEWithLogitsLoss(pos_weight=pw)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-5)
 
     num_epochs = 50
@@ -110,8 +116,8 @@ def main():
     best_epoch = 0
 
     for epoch in range(num_epochs):
-        train_acc, train_loss = single_epoch(model, train_loader, criterion, optimizer)
-        valid_acc, valid_precision, valid_recall, valid_f1, valid_loss, (true_positives, false_positives, true_negatives, false_negatives) = evaluate(model, valid_loader, criterion)
+        train_acc, train_loss = single_epoch(model, train_loader, criterion, optimizer, device)
+        valid_acc, valid_precision, valid_recall, valid_f1, valid_loss, (true_positives, false_positives, true_negatives, false_negatives) = evaluate(model, valid_loader, criterion, device)
         print(f"Epoch {epoch+1}/{num_epochs} - Train Loss: {train_loss:.4f}, Train Accuracy: {train_acc:.4f}")
         print(f"Epoch {epoch+1}/{num_epochs} - Valid Loss: {valid_loss:.4f}, Valid Accuracy: {valid_acc:.4f}, Precision: {valid_precision:.4f}, Recall: {valid_recall:.4f}, F1 Score: {valid_f1:.4f}")
         print(f"Confusion Matrix: TP={true_positives}, FP={false_positives}, TN={true_negatives}, FN={false_negatives}")
