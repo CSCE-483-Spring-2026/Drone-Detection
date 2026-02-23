@@ -24,7 +24,8 @@ def windowAudioSamples(waveform, window=WINDOW_SIZE, hop=HOP_SIZE):
 
 # run a fourier transform to see if the frequency with the highest energy is between the preset bounds
 def detectDroneWindow(signal, fs):
-    spectrum = np.fft.rfft(signal)
+    windowed_signal = signal * np.hanning(len(signal))
+    spectrum = np.fft.rfft(windowed_signal)
     power = np.abs(spectrum) ** 2
     freqs = np.fft.rfftfreq(len(signal), d=1/fs)
 
