@@ -1,0 +1,158 @@
+Using device: cuda
+Dataset loaded successfully!
+Training label distribution: Counter({1: 130872, 0: 13383})
+Validation label distribution: Counter({1: 32719, 0: 3346})
+cuda:0
+Epoch 1/50 - Train Loss: 1.3911, Train Accuracy: 0.9417
+Epoch 1/50 - Valid Loss: 15.9941, Valid Accuracy: 0.6981, Precision: 0.6322, Recall: 0.9960, F1 Score: 0.7735
+Confusion Matrix: TP=28112, FP=16355, TN=9971, FN=112
+Epoch 2/50 - Train Loss: 6.2691, Train Accuracy: 0.9167
+Epoch 2/50 - Valid Loss: 15.8992, Valid Accuracy: 0.8044, Precision: 0.7285, Recall: 0.9931, F1 Score: 0.8405
+Confusion Matrix: TP=28189, FP=10505, TN=15821, FN=197
+Epoch 3/50 - Train Loss: 5.1005, Train Accuracy: 0.9279
+Epoch 3/50 - Valid Loss: 6.7345, Valid Accuracy: 0.8355, Precision: 0.7603, Recall: 0.9960, F1 Score: 0.8624
+Confusion Matrix: TP=28117, FP=8863, TN=17463, FN=112
+Epoch 4/50 - Train Loss: 0.7228, Train Accuracy: 0.9698
+Epoch 4/50 - Valid Loss: 8.7360, Valid Accuracy: 0.7642, Precision: 0.6872, Recall: 0.9990, F1 Score: 0.8143
+Confusion Matrix: TP=28194, FP=12831, TN=13495, FN=29
+Epoch 5/50 - Train Loss: 0.5423, Train Accuracy: 0.9727
+Epoch 5/50 - Valid Loss: 8.9878, Valid Accuracy: 0.7522, Precision: 0.6764, Recall: 0.9990, F1 Score: 0.8066
+Confusion Matrix: TP=28191, FP=13486, TN=12840, FN=29
+Epoch 6/50 - Train Loss: 0.5634, Train Accuracy: 0.9716
+Epoch 6/50 - Valid Loss: 11.7466, Valid Accuracy: 0.7350, Precision: 0.6614, Recall: 0.9992, F1 Score: 0.7959
+Confusion Matrix: TP=28194, FP=14433, TN=11893, FN=23
+Epoch 7/50 - Train Loss: 1.3485, Train Accuracy: 0.9612
+Epoch 7/50 - Valid Loss: 26.3951, Valid Accuracy: 0.7520, Precision: 0.6770, Recall: 0.9966, F1 Score: 0.8063
+Confusion Matrix: TP=28176, FP=13443, TN=12883, FN=95
+Epoch 8/50 - Train Loss: 8.3225, Train Accuracy: 0.9277
+Epoch 8/50 - Valid Loss: 13.6778, Valid Accuracy: 0.8295, Precision: 0.7541, Recall: 0.9954, F1 Score: 0.8581
+Confusion Matrix: TP=28150, FP=9181, TN=17145, FN=131
+Epoch 9/50 - Train Loss: 1.8747, Train Accuracy: 0.9637
+Epoch 9/50 - Valid Loss: 11.3988, Valid Accuracy: 0.7929, Precision: 0.7145, Recall: 0.9981, F1 Score: 0.8328
+Confusion Matrix: TP=28121, FP=11235, TN=15091, FN=53
+Epoch 10/50 - Train Loss: 0.7281, Train Accuracy: 0.9762
+Epoch 10/50 - Valid Loss: 14.6880, Valid Accuracy: 0.7437, Precision: 0.6689, Recall: 0.9986, F1 Score: 0.8012
+Confusion Matrix: TP=28144, FP=13931, TN=12395, FN=39
+Epoch 11/50 - Train Loss: 0.7343, Train Accuracy: 0.9758
+Epoch 11/50 - Valid Loss: 13.8858, Valid Accuracy: 0.7453, Precision: 0.6702, Recall: 0.9992, F1 Score: 0.8022
+Confusion Matrix: TP=28173, FP=13866, TN=12460, FN=23
+Epoch 12/50 - Train Loss: 0.6871, Train Accuracy: 0.9756
+Epoch 12/50 - Valid Loss: 15.4924, Valid Accuracy: 0.7293, Precision: 0.6564, Recall: 0.9992, F1 Score: 0.7923
+Confusion Matrix: TP=28139, FP=14728, TN=11598, FN=23
+Epoch 13/50 - Train Loss: 0.7366, Train Accuracy: 0.9750
+Epoch 13/50 - Valid Loss: 15.0725, Valid Accuracy: 0.7361, Precision: 0.6622, Recall: 0.9991, F1 Score: 0.7965
+Confusion Matrix: TP=28159, FP=14362, TN=11964, FN=24
+Epoch 14/50 - Train Loss: 0.7292, Train Accuracy: 0.9767
+Epoch 14/50 - Valid Loss: 15.3575, Valid Accuracy: 0.7297, Precision: 0.6571, Recall: 0.9991, F1 Score: 0.7928
+Confusion Matrix: TP=28208, FP=14722, TN=11604, FN=25
+Epoch 15/50 - Train Loss: 0.7734, Train Accuracy: 0.9752
+Epoch 15/50 - Valid Loss: 17.0043, Valid Accuracy: 0.7187, Precision: 0.6481, Recall: 0.9990, F1 Score: 0.7861
+Confusion Matrix: TP=28210, FP=15319, TN=11007, FN=29
+Epoch 16/50 - Train Loss: 0.9261, Train Accuracy: 0.9733
+Epoch 16/50 - Valid Loss: 17.4948, Valid Accuracy: 0.7339, Precision: 0.6608, Recall: 0.9990, F1 Score: 0.7954
+Confusion Matrix: TP=28246, FP=14501, TN=11825, FN=28
+Epoch 17/50 - Train Loss: 1.1427, Train Accuracy: 0.9731
+Epoch 17/50 - Valid Loss: 16.4144, Valid Accuracy: 0.7413, Precision: 0.6667, Recall: 0.9991, F1 Score: 0.7997
+Confusion Matrix: TP=28142, FP=14069, TN=12257, FN=26
+Epoch 18/50 - Train Loss: 0.9796, Train Accuracy: 0.9746
+Epoch 18/50 - Valid Loss: 18.8407, Valid Accuracy: 0.7359, Precision: 0.6621, Recall: 0.9992, F1 Score: 0.7964
+Confusion Matrix: TP=28157, FP=14373, TN=11953, FN=23
+Epoch 19/50 - Train Loss: 1.2498, Train Accuracy: 0.9729
+Epoch 19/50 - Valid Loss: 17.7074, Valid Accuracy: 0.7443, Precision: 0.6696, Recall: 0.9992, F1 Score: 0.8018
+Confusion Matrix: TP=28234, FP=13931, TN=12395, FN=24
+Epoch 20/50 - Train Loss: 1.0967, Train Accuracy: 0.9745
+Epoch 20/50 - Valid Loss: 19.3368, Valid Accuracy: 0.7398, Precision: 0.6655, Recall: 0.9991, F1 Score: 0.7989
+Confusion Matrix: TP=28174, FP=14162, TN=12164, FN=24
+Epoch 21/50 - Train Loss: 1.1965, Train Accuracy: 0.9740
+Epoch 21/50 - Valid Loss: 18.4109, Valid Accuracy: 0.7410, Precision: 0.6669, Recall: 0.9988, F1 Score: 0.7998
+Confusion Matrix: TP=28253, FP=14113, TN=12213, FN=34
+Epoch 22/50 - Train Loss: 0.9744, Train Accuracy: 0.9764
+Epoch 22/50 - Valid Loss: 21.2821, Valid Accuracy: 0.7292, Precision: 0.6566, Recall: 0.9993, F1 Score: 0.7925
+Confusion Matrix: TP=28223, FP=14759, TN=11567, FN=21
+Epoch 23/50 - Train Loss: 1.2678, Train Accuracy: 0.9721
+Epoch 23/50 - Valid Loss: 20.9191, Valid Accuracy: 0.7439, Precision: 0.6691, Recall: 0.9991, F1 Score: 0.8014
+Confusion Matrix: TP=28192, FP=13943, TN=12383, FN=26
+Epoch 24/50 - Train Loss: 1.3397, Train Accuracy: 0.9737
+Epoch 24/50 - Valid Loss: 21.2165, Valid Accuracy: 0.7349, Precision: 0.6616, Recall: 0.9987, F1 Score: 0.7959
+Confusion Matrix: TP=28211, FP=14430, TN=11896, FN=36
+Epoch 25/50 - Train Loss: 1.0773, Train Accuracy: 0.9757
+Epoch 25/50 - Valid Loss: 20.6522, Valid Accuracy: 0.7404, Precision: 0.6664, Recall: 0.9991, F1 Score: 0.7995
+Confusion Matrix: TP=28282, FP=14159, TN=12167, FN=25
+Epoch 26/50 - Train Loss: 1.1599, Train Accuracy: 0.9760
+Epoch 26/50 - Valid Loss: 23.9165, Valid Accuracy: 0.7421, Precision: 0.6678, Recall: 0.9993, F1 Score: 0.8006
+Confusion Matrix: TP=28279, FP=14068, TN=12258, FN=19
+Epoch 27/50 - Train Loss: 1.7410, Train Accuracy: 0.9719
+Epoch 27/50 - Valid Loss: 21.8787, Valid Accuracy: 0.7424, Precision: 0.6680, Recall: 0.9990, F1 Score: 0.8007
+Confusion Matrix: TP=28249, FP=14037, TN=12289, FN=29
+Epoch 28/50 - Train Loss: 1.1549, Train Accuracy: 0.9772
+Epoch 28/50 - Valid Loss: 23.9529, Valid Accuracy: 0.7492, Precision: 0.6735, Recall: 0.9991, F1 Score: 0.8046
+Confusion Matrix: TP=28142, FP=13643, TN=12683, FN=24
+Epoch 29/50 - Train Loss: 1.7491, Train Accuracy: 0.9723
+Epoch 29/50 - Valid Loss: 22.3336, Valid Accuracy: 0.7481, Precision: 0.6729, Recall: 0.9992, F1 Score: 0.8042
+Confusion Matrix: TP=28243, FP=13727, TN=12599, FN=22
+Epoch 30/50 - Train Loss: 1.2139, Train Accuracy: 0.9765
+Epoch 30/50 - Valid Loss: 23.5441, Valid Accuracy: 0.7430, Precision: 0.6685, Recall: 0.9989, F1 Score: 0.8010
+Confusion Matrix: TP=28245, FP=14004, TN=12322, FN=30
+Epoch 31/50 - Train Loss: 1.2532, Train Accuracy: 0.9764
+Epoch 31/50 - Valid Loss: 23.2108, Valid Accuracy: 0.7390, Precision: 0.6646, Recall: 0.9990, F1 Score: 0.7982
+Confusion Matrix: TP=28120, FP=14190, TN=12136, FN=28
+Epoch 32/50 - Train Loss: 1.6571, Train Accuracy: 0.9752
+Epoch 32/50 - Valid Loss: 35.7124, Valid Accuracy: 0.7785, Precision: 0.7013, Recall: 0.9977, F1 Score: 0.8237
+Confusion Matrix: TP=28274, FP=12040, TN=14286, FN=66
+Epoch 33/50 - Train Loss: 6.7025, Train Accuracy: 0.9512
+Epoch 33/50 - Valid Loss: 42.4438, Valid Accuracy: 0.8034, Precision: 0.7267, Recall: 0.9936, F1 Score: 0.8395
+Confusion Matrix: TP=28021, FP=10538, TN=15788, FN=180
+Epoch 34/50 - Train Loss: 9.4604, Train Accuracy: 0.9443
+Epoch 34/50 - Valid Loss: 18.5156, Valid Accuracy: 0.8276, Precision: 0.7519, Recall: 0.9951, F1 Score: 0.8566
+Confusion Matrix: TP=28075, FP=9265, TN=17061, FN=138
+Epoch 35/50 - Train Loss: 1.4020, Train Accuracy: 0.9779
+Epoch 35/50 - Valid Loss: 19.4927, Valid Accuracy: 0.7972, Precision: 0.7193, Recall: 0.9972, F1 Score: 0.8357
+Confusion Matrix: TP=28144, FP=10984, TN=15342, FN=80
+Epoch 36/50 - Train Loss: 1.1005, Train Accuracy: 0.9805
+Epoch 36/50 - Valid Loss: 21.5461, Valid Accuracy: 0.7720, Precision: 0.6947, Recall: 0.9981, F1 Score: 0.8192
+Confusion Matrix: TP=28187, FP=12389, TN=13937, FN=53
+Epoch 37/50 - Train Loss: 1.0358, Train Accuracy: 0.9803
+Epoch 37/50 - Valid Loss: 21.8446, Valid Accuracy: 0.7648, Precision: 0.6877, Recall: 0.9986, F1 Score: 0.8145
+Confusion Matrix: TP=28164, FP=12788, TN=13538, FN=39
+Epoch 38/50 - Train Loss: 0.9350, Train Accuracy: 0.9817
+Epoch 38/50 - Valid Loss: 24.3553, Valid Accuracy: 0.7433, Precision: 0.6686, Recall: 0.9985, F1 Score: 0.8009
+Confusion Matrix: TP=28146, FP=13953, TN=12373, FN=41
+Epoch 39/50 - Train Loss: 0.9379, Train Accuracy: 0.9813
+Epoch 39/50 - Valid Loss: 24.8132, Valid Accuracy: 0.7381, Precision: 0.6640, Recall: 0.9990, F1 Score: 0.7978
+Confusion Matrix: TP=28160, FP=14247, TN=12079, FN=28
+Epoch 40/50 - Train Loss: 0.9540, Train Accuracy: 0.9808
+Epoch 40/50 - Valid Loss: 26.3337, Valid Accuracy: 0.7285, Precision: 0.6554, Recall: 0.9988, F1 Score: 0.7914
+Confusion Matrix: TP=28016, FP=14731, TN=11595, FN=35
+Epoch 41/50 - Train Loss: 0.9960, Train Accuracy: 0.9800
+Epoch 41/50 - Valid Loss: 22.5474, Valid Accuracy: 0.7469, Precision: 0.6719, Recall: 0.9989, F1 Score: 0.8034
+Confusion Matrix: TP=28216, FP=13779, TN=12547, FN=31
+Epoch 42/50 - Train Loss: 0.9007, Train Accuracy: 0.9815
+Epoch 42/50 - Valid Loss: 27.0345, Valid Accuracy: 0.7201, Precision: 0.6489, Recall: 0.9988, F1 Score: 0.7867
+Confusion Matrix: TP=28119, FP=15214, TN=11112, FN=35
+Epoch 43/50 - Train Loss: 0.9005, Train Accuracy: 0.9809
+Epoch 43/50 - Valid Loss: 25.0641, Valid Accuracy: 0.7334, Precision: 0.6603, Recall: 0.9990, F1 Score: 0.7951
+Confusion Matrix: TP=28241, FP=14527, TN=11799, FN=28
+Epoch 44/50 - Train Loss: 1.0035, Train Accuracy: 0.9801
+Epoch 44/50 - Valid Loss: 25.3517, Valid Accuracy: 0.7289, Precision: 0.6562, Recall: 0.9987, F1 Score: 0.7920
+Confusion Matrix: TP=28118, FP=14733, TN=11593, FN=38
+Epoch 45/50 - Train Loss: 0.9597, Train Accuracy: 0.9805
+Epoch 45/50 - Valid Loss: 27.5257, Valid Accuracy: 0.7186, Precision: 0.6483, Recall: 0.9989, F1 Score: 0.7863
+Confusion Matrix: TP=28293, FP=15346, TN=10980, FN=31
+Epoch 46/50 - Train Loss: 1.0461, Train Accuracy: 0.9799
+Epoch 46/50 - Valid Loss: 26.7429, Valid Accuracy: 0.7230, Precision: 0.6511, Recall: 0.9990, F1 Score: 0.7884
+Confusion Matrix: TP=28091, FP=15051, TN=11275, FN=28
+Epoch 47/50 - Train Loss: 1.0411, Train Accuracy: 0.9797
+Epoch 47/50 - Valid Loss: 28.5811, Valid Accuracy: 0.7142, Precision: 0.6444, Recall: 0.9987, F1 Score: 0.7834
+Confusion Matrix: TP=28176, FP=15547, TN=10779, FN=38
+Epoch 48/50 - Train Loss: 0.9818, Train Accuracy: 0.9800
+Epoch 48/50 - Valid Loss: 24.5688, Valid Accuracy: 0.7377, Precision: 0.6640, Recall: 0.9990, F1 Score: 0.7978
+Confusion Matrix: TP=28243, FP=14291, TN=12035, FN=27
+Epoch 49/50 - Train Loss: 1.0625, Train Accuracy: 0.9794
+Epoch 49/50 - Valid Loss: 26.6019, Valid Accuracy: 0.7259, Precision: 0.6539, Recall: 0.9989, F1 Score: 0.7904
+Confusion Matrix: TP=28181, FP=14917, TN=11409, FN=30
+Epoch 50/50 - Train Loss: 1.0674, Train Accuracy: 0.9800
+Epoch 50/50 - Valid Loss: 24.7459, Valid Accuracy: 0.7371, Precision: 0.6629, Recall: 0.9988, F1 Score: 0.7969
+Confusion Matrix: TP=28069, FP=14274, TN=12052, FN=33
+Train windows: 5751443 drone, 5376273 non-drone
+Valid windows: 1411145 drone, 1316300 non-drone
+Best Validation Accuracy: 0.8355, F1 Score: 0.8624, Precision: 0.7603, Recall: 0.9960 from epoch 3
