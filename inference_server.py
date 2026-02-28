@@ -3,6 +3,7 @@ from logistic_regression import LogisticRegressionModel
 import torch
 import torch.nn as nn
 from data_loader import window_audio_samples, load_drone_audio_dataset
+from audio_capture import record_audio
 import torchaudio
 from torchaudio.transforms import MelSpectrogram, AmplitudeToDB
 from amplify import amplify
@@ -25,7 +26,7 @@ def extract_features_and_window(waveform):
 
     features_list = []
     for window in windows:
-        window = amplify(window, SAMPLING_RATE, train=False)
+        window = amplify(window, SAMPLING_RATE, train=True)
 
         x = torch.as_tensor(window, dtype=torch.float32).unsqueeze(0)
         spectrograph = to_db(mel(x)).squeeze(0)
@@ -52,7 +53,7 @@ class StatusWindow:
         self._flashing = False
         self._flash_state = False
 
-    def start_flashing_yellow(self, text="Potential drone detected…"):
+    def start_flashing_yellow(self, text="Potential drone detected, analyzing…"):
         self._flashing = True
         self.label.config(text=text)
         self._flash_yellow()
@@ -72,7 +73,7 @@ class StatusWindow:
 
     def set_result(self, prediction: int):
         self.stop_flashing()
-        if prediction == 1:
+        if prediction == 0:
             bg = "green"
             msg = "No drone detected"
         else:
@@ -86,7 +87,6 @@ class StatusWindow:
         self.root.mainloop()
 
 def run_inference_loop(status_window: StatusWindow):
-    status_window.start_flashing_yellow()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     checkpoint = torch.load("best_logistic_model.pth", map_location=device)
@@ -97,18 +97,35 @@ def run_inference_loop(status_window: StatusWindow):
     model.to(device)
     model.eval()
     
-    waveform = torch.randn(SAMPLING_RATE * 5)  # example 5-second audio clip
 
-    features = extract_features_and_window(waveform).to(device)
+    status_window.start_flashing_yellow()
+    wave_path = record_audio("capture.wav", duration=3, sample_rate=SAMPLING_RATE)
+    waveform, sr = torchaudio.load(wave_path, normalize=True)
+
+    if sr != SAMPLING_RATE:
+        waveform = torchaudio.functional.resample(waveform, orig_freq=sr, new_freq=SAMPLING_RATE)
+    
+    if waveform.shape[0] > 1:
+        waveform = waveform.mean(dim=0)
+    else:
+        waveform = waveform[0]
+
+    # test waveform from drone audio dataset
+    # dataset = load_drone_audio_dataset()
+    # sample = dataset['train'][-150]
+    # waveform = torch.as_tensor(sample['audio']['array'], dtype=torch.float32)
+
+    features = extract_features_and_window(waveform.cpu().numpy()).to(device)
 
     with torch.no_grad():
         logits = model(features.float())
         probabilities = torch.sigmoid(logits).view(-1)
     
-    total_prob = probabilities.mean().item()
+    total_prob = probabilities.max().item()
     prediction = 1 if total_prob >= 0.5 else 0
 
     print(f"Predicted class: {prediction} (probability: {total_prob:.4f})")
+    print("logits/probabilities for each window:", list(zip(logits.cpu().numpy(), probabilities.cpu().numpy())))
     status_window.root.after(0, lambda: status_window.set_result(prediction))
 
 def main():
