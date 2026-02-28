@@ -26,7 +26,7 @@ def extract_features_and_window(waveform):
 
     features_list = []
     for window in windows:
-        window = amplify(window, SAMPLING_RATE, train=True)
+        window = amplify(window, SAMPLING_RATE, train=False)
 
         x = torch.as_tensor(window, dtype=torch.float32).unsqueeze(0)
         spectrograph = to_db(mel(x)).squeeze(0)
@@ -121,11 +121,13 @@ def run_inference_loop(status_window: StatusWindow):
         logits = model(features.float())
         probabilities = torch.sigmoid(logits).view(-1)
     
-    total_prob = probabilities.max().item()
+    total_prob = probabilities.topk(k=min(3, probabilities.numel())).values.mean().item()
     prediction = 1 if total_prob >= 0.5 else 0
 
     print(f"Predicted class: {prediction} (probability: {total_prob:.4f})")
     print("logits/probabilities for each window:", list(zip(logits.cpu().numpy(), probabilities.cpu().numpy())))
+    print("feature stats:", features.min().item(), features.max().item(), features.mean().item(), features.std().item())
+    print("logit stats:", logits.min().item(), logits.max().item())
     status_window.root.after(0, lambda: status_window.set_result(prediction))
 
 def main():
