@@ -52,14 +52,24 @@ class DroneAudioDataset(IterableDataset):
 
             for window in windows:
                 window = amplify(window, SAMPLING_RATE, train=self.train)
-                
+                window = rms_normalize_window(window, target_rms=0.1)
+
                 x = torch.as_tensor(window, dtype=torch.float32).unsqueeze(0)
                 spectrograph = self.to_db_transform(self.spectrograph_transform(x)).squeeze(0)
 
                 features = spectrograph.flatten().cpu().numpy()
 
                 yield {'x': features, 'y': label}
-    
+
+def rms_normalize_window(window, target_rms=0.1):
+    w = np.asarray(window, dtype=np.float32)
+    rms = np.sqrt(np.mean(w**2) + 1e-12)
+    rms = max(rms, 1e-6)
+    scale = target_rms / rms
+    w = w * scale
+    w = np.clip(w, -1.0, 1.0)
+    return w
+
 
 def load_drone_audio_dataset():
     """
