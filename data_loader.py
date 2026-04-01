@@ -95,8 +95,7 @@ def load_local_drone_audio_dataset(local_dir="/home/luke_gut/Drone-Detection/dro
         local_dir (str): The path to the local dataset directory.
     """
     label_map = {
-        'large': 3,
-        'medium': 2,
+        'large': 2,
         'small': 1,
         'non_drone': 0
     }
