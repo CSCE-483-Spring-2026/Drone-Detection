@@ -1,3 +1,4 @@
+from collections import Counter
 import torch
 from torch.utils.data import DataLoader
 from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_score
@@ -97,10 +98,12 @@ def evaluate(model, data_loader, criterion, mean=None, std=None, SPEC_H=None, SP
         all_predictions.extend(predictions.cpu().numpy())
         all_labels.extend(y_batch.cpu().numpy())
     
+    print("Predicted counts:", Counter(all_predictions))
+    print("True counts:", Counter(all_labels))
     accuracy = total_correct / total
-    precision = precision_score(all_labels, all_predictions, average='macro')
-    recall = recall_score(all_labels, all_predictions, average='macro')
-    f1 = f1_score(all_labels, all_predictions, average='macro')
+    precision = precision_score(all_labels, all_predictions, average='macro', zero_division=0)
+    recall = recall_score(all_labels, all_predictions, average='macro', zero_division=0)
+    f1 = f1_score(all_labels, all_predictions, average='macro', zero_division=0)
     cm = confusion_matrix(all_labels, all_predictions, labels=[0, 1, 2])
     per_class_precision = precision_score(all_labels, all_predictions, average=None, labels=[0, 1, 2], zero_division=0)
     per_class_recall = recall_score(all_labels, all_predictions, average=None, labels=[0, 1, 2], zero_division=0)   
@@ -140,11 +143,13 @@ def main():
     full_ds = aggregate_datasets(hf_ds, local_ds)
 
     train_ds, valid_ds = train_valid_split(full_ds)
+    train_ds = train_ds.shuffle(seed=42)
+    valid_ds = valid_ds.shuffle(seed=42)
 
-    train_loader = DataLoader(DroneAudioDataset(train_ds, cap_length=10,train=True), batch_size=1024, pin_memory=True)
-    valid_loader = DataLoader(DroneAudioDataset(valid_ds, cap_length=10, train=False), batch_size=1024, pin_memory=True)
+    train_loader = DataLoader(DroneAudioDataset(train_ds,train=True, cap_length=10), batch_size=1024, pin_memory=True)
+    valid_loader = DataLoader(DroneAudioDataset(valid_ds, train=False, cap_length=10), batch_size=1024, pin_memory=True)
 
-    train_loader_for_mean_std = DataLoader(DroneAudioDataset(train_ds, cap_length=10,train=False), batch_size=1024, pin_memory=True)
+    train_loader_for_mean_std = DataLoader(DroneAudioDataset(train_ds,train=False, cap_length=10), batch_size=1024, pin_memory=True)
     mean, std = compute_feature_mean_std(train_loader_for_mean_std, device=device)
 
     print(f"mean/std shape: {mean.shape}, {std.shape}")
@@ -152,16 +157,33 @@ def main():
     print("std stats:", std.min().item(), std.max().item(), std.mean().item(), std.std().item())
 
     first_batch = next(iter(train_loader))
+    print("first batch class counts:", Counter(first_batch["y"].tolist()))
     
     # need to verify that the input dimension matches the expected dimension for the CNN model
     SPEC_H = 64
     SPEC_W = first_batch['x'].shape[1] // SPEC_H
     model = CNNModel(input_channels=1, num_classes=3).to(device)
 
-    criterion = torch.nn.CrossEntropyLoss()
+    def compute_window_class_counts(data_loader):
+        counts = Counter()
+        for batch in data_loader:
+            y = batch["y"]
+            for label in y.tolist():
+                counts[label] += 1
+        print("Window-level class counts:", counts)
+        return counts
+    
+    count_loader = DataLoader(DroneAudioDataset(train_ds,train=False, cap_length=10), batch_size=1024, pin_memory=True)
+
+    counts = compute_window_class_counts(count_loader)
+    class_counts = torch.tensor([counts[0], counts[1], counts[2]], dtype=torch.float32, device=device)
+
+    class_weights = class_counts.sum() / (len(class_counts) * class_counts)
+    criterion = torch.nn.CrossEntropyLoss(weight=class_weights)
+    print("Class weights:", class_weights)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-5)
 
-    num_epochs = 1
+    num_epochs = 5
     best_accuracy = 0.0
     best_valid_f1 = 0.0
     best_precision = 0.0

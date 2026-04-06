@@ -39,30 +39,8 @@ class DroneAudioDataset(IterableDataset):
         for sample in self.ds:
             waveform = sample['audio']['array']
             label = sample['label']
-            windows = window_audio_samples(waveform, window=self.window_size, hop=self.hop_size, cap_length=self.cap_length)
+            windows = window_audio_samples(label, waveform, window=self.window_size, hop=self.hop_size, cap_length=self.cap_length)
 
-            # windowing keep probabilities to balance classes and reduce overfitting on long audio samples
-            if label == 0:
-                keep_prob = 1
-                windows = [w for w in windows if np.random.rand() < keep_prob]
-                self.non_drone_windows += len(windows)
-
-                if len(windows) == 0:
-                    continue
-            elif label == 1:
-                keep_prob = 1
-                windows = [w for w in windows if np.random.rand() < keep_prob]
-                self.small_drone_windows += len(windows)
-
-                if len(windows) == 0:
-                    continue
-            elif label == 2:
-                keep_prob = 1
-                windows = [w for w in windows if np.random.rand() < keep_prob]
-                self.large_drone_windows += len(windows)
-
-                if len(windows) == 0:
-                    continue
 
             for window in windows:
                 window = amplify(window, SAMPLING_RATE, train=self.train)
@@ -98,9 +76,12 @@ def load_hf_non_drone_dataset():
 
     none_drone_ds = none_drone_ds.cast_column('label', Value('int64'))
 
+    # only keep a subset of the non-drone samples to balance the dataset and reduce overfitting on long non-drone audio
+    none_drone_ds = none_drone_ds.shuffle(seed=42).select(range(1000))
+
     return none_drone_ds
 
-def load_local_drone_audio_dataset(local_dir="/home/luke_gut/Drone-Detection/drone_data"):
+def load_local_drone_audio_dataset(local_dir="/home/luke/Drone-Detection/drone_data"):
     """ Loads the local drone audio dataset from the specified directory.
     The directory should have subfolders for each class (large, medium, small, non_drone) containing the respective audio files.
     Args:
@@ -177,16 +158,17 @@ def train_valid_split(ds, valid_ratio=0.2):
     return train_ds, valid_ds
 
 
-def window_audio_samples(waveform, window = WINDOW_SIZE, hop=HOP_SIZE, cap_length=None):
+def window_audio_samples(label, waveform, window = WINDOW_SIZE, hop=HOP_SIZE, cap_length=None):
     """ Splits the audio waveform into overlapping windows.
     
     Args:
+        label (int): The label for the audio samples.
         waveform (array): The input audio waveform as an array of floats.
         window (int): The size of each window in samples.
         hop (int): The hop size between windows in samples.
         cap_length (int, optional): Maximum number of windows to return for long audio. If None, returns all windows.
     """
-        
+
     waveform = np.asarray(waveform, dtype=np.float32)
 
     # short waveform, pad with zeros
@@ -202,6 +184,7 @@ def window_audio_samples(waveform, window = WINDOW_SIZE, hop=HOP_SIZE, cap_lengt
     if cap_length is not None and len(windows) > cap_length:
         idx = np.random.choice(len(windows), cap_length, replace=False)
         windows = [windows[i] for i in idx]
+    
 
     return windows
 
