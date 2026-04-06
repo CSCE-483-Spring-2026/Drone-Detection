@@ -1,15 +1,25 @@
 #include <Arduino.h>
 #include <arduinoFFT.h>
-#include <math.h>
+#include "driver/i2s.h"
+
+#define I2S_WS   18
+#define I2S_SD   38
+#define I2S_SCK  17
+#define I2S_PORT I2S_NUM_0
 
 constexpr uint16_t SAMPLING_RATE = 16000;
-constexpr uint16_t WINDOW_SIZE = 4096;
+constexpr uint16_t I2S_BUFFER_LEN  = 256;
+constexpr uint16_t WINDOW_SIZE = 8192;
 
 constexpr float DRONE_LOW  = 175.0f;
 constexpr float DRONE_HIGH = 425.0f;
 
 constexpr uint16_t RECORD_SECONDS = 2;
-constexpr uint32_t RECORD_WINDOWS_SENT = (SAMPLING_RATE * RECORD_SECONDS) / WINDOW_SIZE + 1;
+constexpr uint32_t RECORD_WINDOWS_TO_SEND = (SAMPLING_RATE * RECORD_SECONDS + WINDOW_SIZE - 1) / WINDOW_SIZE;
+
+// I2S input buffer
+int32_t i2sBuffer[I2S_BUFFER_LEN];
+
 
 // arduinoFFT arrays
 float vReal[WINDOW_SIZE];
@@ -24,6 +34,7 @@ uint16_t recordWindowsSent = 0;
 
 bool isRecording = false;
 bool recordDone = false;
+bool sentHeader = false;
 
 // arduinoFFT instance
 ArduinoFFT<float> FFT = ArduinoFFT<float>(vReal, vImag, WINDOW_SIZE, SAMPLING_RATE);
@@ -54,75 +65,104 @@ bool detectDroneWindow(const int32_t* signal, float& peakFreqOut) {
   return (peakFreqOut >= DRONE_LOW && peakFreqOut <= DRONE_HIGH);
 }
 
-void transferWindow(uint16_t windowNumber) {
-  Serial.print("Transferring window ");
-  Serial.println(windowNumber + 1);
-  recordDone = false;
+void sendRecordingHeader() {
+  uint32_t totalSamples = RECORD_WINDOWS_TO_SEND * WINDOW_SIZE;
+  uint32_t totalBytes   = totalSamples * sizeof(int32_t);
+
+  Serial.print("WAVSIZE ");
+  Serial.println(totalBytes);
+
+  sentHeader = true;
+}
+
+void transferWindow() {
+  // send raw 32-bit PCM samples
+  Serial.write((uint8_t*)recordBuffer, WINDOW_SIZE * sizeof(int32_t));
   recordIndex = 0;
 }
 
-void handleSample(int32_t sample) {
-  // if recording audio, store in record buffer
-  if (isRecording && !recordDone) {
-    recordBuffer[recordIndex++] = sample;
+void handleInput(const int32_t* samples, size_t sampleCount) {
+  for (size_t i = 0; i < sampleCount; i++) {
+    int32_t sample = samples[i];
 
-    if (recordIndex >= WINDOW_SIZE) {
-      transferWindow(recordWindowsSent++);
-
-      if (recordWindowsSent >= RECORD_WINDOWS_SENT) {
-        isRecording = false;
-        recordDone = true;
-        Serial.println("Recording complete");
+    // if recording audio, store in record buffer
+    if (isRecording && !recordDone) {
+      if (!sentHeader) {
+        sendRecordingHeader();
       }
-    } 
 
-    return;
-  }
+      recordBuffer[recordIndex++] = sample;
 
-  // store current sample for filter
-  currentWindow[currentWindowIndex++] = sample;
+      if (recordIndex >= WINDOW_SIZE) {
+        transferWindow();
+        recordWindowsSent++;
 
-  // pass through filter once window is full
-  if (currentWindowIndex >= WINDOW_SIZE) {
-    float peakFreq = 0.0f;
-    bool detected = detectDroneWindow(currentWindow, peakFreq);
+        if (recordWindowsSent >= RECORD_WINDOWS_TO_SEND) {
+          isRecording = false;
+          recordDone = true;
+        }
+      } 
 
-    if (detected) {
-      isRecording = true;
-      recordDone = false;
-      recordIndex = 0;
-      recordWindowsSent = 0;
-
-      Serial.print("Drone detected. Peak frequency: ");
-      Serial.println(peakFreq);
+      continue;
     }
 
-    // reset index for next window
-    currentWindowIndex = 0;
-  }
-}
+    // store current sample for filter
+    currentWindow[currentWindowIndex++] = sample;
 
-int32_t getNextSample() {
-  static uint32_t n = 0;
-  float freq = 250.0f;
-  float value = 10000.0f * sinf(2.0f * PI * freq * n / SAMPLING_RATE);
-  n++;
-  return (int32_t)value;
+    // pass through filter once window is full
+    if (currentWindowIndex >= WINDOW_SIZE) {
+      float peakFreq = 0.0f;
+      bool detected = detectDroneWindow(currentWindow, peakFreq);
+
+      if (detected) {
+        isRecording = true;
+        recordDone = false;
+        recordIndex = 0;
+        recordWindowsSent = 0;
+        sentHeader = false;
+      }
+
+      // reset index for next window
+      currentWindowIndex = 0;
+    }
+  }
 }
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println("Starting");
+  Serial.begin(921600);
+  delay(1000);
+
+  i2s_config_t i2s_config = {
+    .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX),
+    .sample_rate = SAMPLING_RATE,
+    .bits_per_sample = I2S_BITS_PER_SAMPLE_32BIT,
+    .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
+    .communication_format = I2S_COMM_FORMAT_STAND_I2S,
+    .intr_alloc_flags = 0,
+    .dma_buf_count = 8,
+    .dma_buf_len = 64,
+    .use_apll = false
+  };
+
+  i2s_pin_config_t pin_config = {
+    .bck_io_num = I2S_SCK,
+    .ws_io_num = I2S_WS,
+    .data_out_num = -1,
+    .data_in_num = I2S_SD
+  };
+
+  i2s_driver_install(I2S_PORT, &i2s_config, 0, NULL);
+  i2s_set_pin(I2S_PORT, &pin_config);
 }
 
 void loop() {
-  int32_t sample = getNextSample();
-  handleSample(sample);
+  size_t bytesRead = 0;
+  i2s_read(I2S_PORT, i2sBuffer, sizeof(i2sBuffer), &bytesRead, portMAX_DELAY);
+
+  size_t samplesRead = bytesRead / sizeof(i2sBuffer[0]);
+  handleInput(i2sBuffer, samplesRead);
 
   if (recordDone) {
     recordDone = false;
-    Serial.println("Ready for next recording");
   }
-
-  delayMicroseconds(1000000 / SAMPLING_RATE);
 }
