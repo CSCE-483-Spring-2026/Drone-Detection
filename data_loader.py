@@ -100,7 +100,7 @@ def load_hf_non_drone_dataset():
 
     return none_drone_ds
 
-def load_local_drone_audio_dataset(local_dir="/home/luke/Drone-Detection/drone_data"):
+def load_local_drone_audio_dataset(local_dir="/home/luke_gut/Drone-Detection/drone_data"):
     """ Loads the local drone audio dataset from the specified directory.
     The directory should have subfolders for each class (large, medium, small, non_drone) containing the respective audio files.
     Args:

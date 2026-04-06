@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import DataLoader
-from sklearn.metrics import confusion_matrix, f1_score
+from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_score
 import torch.nn.functional as F
 from data_loader import load_hf_non_drone_dataset, load_local_drone_audio_dataset, aggregate_datasets, train_valid_split, DroneAudioDataset
 import numpy as np
@@ -98,11 +98,14 @@ def evaluate(model, data_loader, criterion, mean=None, std=None, SPEC_H=None, SP
         all_labels.extend(y_batch.cpu().numpy())
     
     accuracy = total_correct / total
-    precision = confusion_matrix(all_labels, all_predictions, labels=[0, 1, 2]).diagonal() / confusion_matrix(all_labels, all_predictions, labels=[0, 1, 2]).sum(axis=0)
-    recall = confusion_matrix(all_labels, all_predictions, labels=[0, 1, 2]).diagonal() / confusion_matrix(all_labels, all_predictions, labels=[0, 1, 2]).sum(axis=1)
-    f1 = f1_score(all_labels, all_predictions, average='weighted')
+    precision = precision_score(all_labels, all_predictions, average='macro')
+    recall = recall_score(all_labels, all_predictions, average='macro')
+    f1 = f1_score(all_labels, all_predictions, average='macro')
     cm = confusion_matrix(all_labels, all_predictions, labels=[0, 1, 2])
-    return accuracy, precision, recall, f1, total_loss/total, cm
+    per_class_precision = precision_score(all_labels, all_predictions, average=None, labels=[0, 1, 2], zero_division=0)
+    per_class_recall = recall_score(all_labels, all_predictions, average=None, labels=[0, 1, 2], zero_division=0)   
+    per_class_f1 = f1_score(all_labels, all_predictions, average=None, labels=[0, 1, 2], zero_division=0)
+    return accuracy, precision, recall, f1, total_loss/total, cm, per_class_precision, per_class_recall, per_class_f1
 
     
 
@@ -167,9 +170,10 @@ def main():
 
     for epoch in range(num_epochs):
         train_acc, train_loss = single_epoch(model, train_loader, criterion, optimizer, mean=mean, std=std, SPEC_H=SPEC_H, SPEC_W=SPEC_W)
-        valid_acc, valid_precision, valid_recall, valid_f1, valid_loss, confusion_mat = evaluate(model, valid_loader, criterion, mean=mean, std=std, SPEC_H=SPEC_H, SPEC_W=SPEC_W)
+        valid_acc, valid_precision, valid_recall, valid_f1, valid_loss, confusion_mat, per_class_precision, per_class_recall, per_class_f1 = evaluate(model, valid_loader, criterion, mean=mean, std=std, SPEC_H=SPEC_H, SPEC_W=SPEC_W)
         print(f"Epoch {epoch+1}/{num_epochs} - Train Loss: {train_loss:.4f}, Train Accuracy: {train_acc:.4f}")
-        print(f"Epoch {epoch+1}/{num_epochs} - Valid Loss: {valid_loss:.4f}, Valid Accuracy: {valid_acc:.4f}, Precision: {valid_precision:.4f}, Recall: {valid_recall:.4f}, F1 Score: {valid_f1:.4f}")
+        print(f"Epoch {epoch+1}/{num_epochs} - Valid Loss: {valid_loss:.4f}, Valid Accuracy: {valid_acc:.4f}, Precision: {valid_precision}, Recall: {valid_recall}, F1 Score: {valid_f1}")
+        print(f"Per-class Precision: {per_class_precision}, Per-class Recall: {per_class_recall}, Per-class F1: {per_class_f1}")
         print(f"Confusion Matrix:\n{confusion_mat}")
 
         if valid_f1 > best_valid_f1:
