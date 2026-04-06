@@ -1,12 +1,11 @@
-import os
-from datasets import load_dataset, Dataset, DatasetDict, Audio, Value, concatenate_datasets
+from datasets import load_dataset
 import torchaudio
 import torch
 import numpy as np
 from collections import Counter
 from torch.utils.data import IterableDataset
 from torchaudio.transforms import MelSpectrogram, AmplitudeToDB
-from amplify import amplify
+from .amplify import amplify
 
 SAMPLING_RATE = 16000  # 16 kHz
 WINDOW_SIZE = 16000  # 1 second window
@@ -20,8 +19,7 @@ class DroneAudioDataset(IterableDataset):
         self.hop_size = hop_size
         self.cap_length = cap_length
         self.non_drone_windows = 0
-        self.small_drone_windows = 0
-        self.large_drone_windows = 0
+        self.drone_windows = 0
         self.train = train
 
         # initialize spectrograph and dB transforms
@@ -41,28 +39,16 @@ class DroneAudioDataset(IterableDataset):
             label = sample['label']
             windows = window_audio_samples(waveform, window=self.window_size, hop=self.hop_size, cap_length=self.cap_length)
 
-            # windowing keep probabilities to balance classes and reduce overfitting on long audio samples
-            if label == 0:
-                keep_prob = 1
+            # attempt to balance classes by downsampling the majority class (drone) windows.
+            if label == 1:
+                keep_prob = 0.85
                 windows = [w for w in windows if np.random.rand() < keep_prob]
+                self.drone_windows += len(windows)
+
+                if len(windows) == 0:
+                    continue 
+            else:                
                 self.non_drone_windows += len(windows)
-
-                if len(windows) == 0:
-                    continue
-            elif label == 1:
-                keep_prob = 1
-                windows = [w for w in windows if np.random.rand() < keep_prob]
-                self.small_drone_windows += len(windows)
-
-                if len(windows) == 0:
-                    continue
-            elif label == 2:
-                keep_prob = 1
-                windows = [w for w in windows if np.random.rand() < keep_prob]
-                self.large_drone_windows += len(windows)
-
-                if len(windows) == 0:
-                    continue
 
             for window in windows:
                 window = amplify(window, SAMPLING_RATE, train=self.train)
@@ -85,63 +71,14 @@ def rms_normalize_window(window, target_rms=0.1):
     return w
 
 
-def load_hf_non_drone_dataset():
+def load_drone_audio_dataset():
     """
     Loads the drone audio detection dataset from Hugging Face Datasets library.
     """
-    huggingface_ds = load_dataset("geronimobasso/drone-audio-detection-samples")
-    print("Hugging Face Dataset loaded successfully!")
+    ds = load_dataset("geronimobasso/drone-audio-detection-samples")
+    print("Dataset loaded successfully!")
 
-    train_ds = huggingface_ds['train']
-    none_drone_ds = train_ds.filter(lambda x: x['label'] == 0)
-    none_drone_ds = none_drone_ds.cast_column('audio', Audio())
-
-    none_drone_ds = none_drone_ds.cast_column('label', Value('int64'))
-
-    return none_drone_ds
-
-def load_local_drone_audio_dataset(local_dir="/home/luke/Drone-Detection/drone_data"):
-    """ Loads the local drone audio dataset from the specified directory.
-    The directory should have subfolders for each class (large, medium, small, non_drone) containing the respective audio files.
-    Args:
-        local_dir (str): The path to the local dataset directory.
-    """
-    label_map = {
-        'large': 2,
-        'small': 1,
-        'non_drone': 0
-    }
-
-    audio_paths = []
-    labels = []
-    for class_folder, label in label_map.items():
-        class_dir = os.path.join(local_dir, class_folder)
-
-        for root, _, files in os.walk(class_dir):
-            for file in files:
-                if file.endswith('.wav'):
-                    audio_paths.append(os.path.join(root, file))
-                    labels.append(label)
-    
-    local_ds = Dataset.from_dict({'audio': audio_paths, 'label': labels})
-    local_ds = local_ds.cast_column('audio', Audio())
-    print("Local drone audio dataset loaded successfully!")
-    return local_ds
-
-def aggregate_datasets(ds1, ds2):
-    """ Combines two datasets into a single DatasetDict with a 'train' split.
-    
-    Args:
-        ds1 (Dataset): The first dataset to combine.
-        ds2 (Dataset): The second dataset to combine.
-    """
-    combined = concatenate_datasets([ds1, ds2])
-
-    combined_ds = DatasetDict({
-        "train": combined
-    })
-    return combined_ds
-
+    return ds
 
 def train_valid_split(ds, valid_ratio=0.2):
     """ Splits the dataset into training and validation sets while maintaining class balance.
@@ -204,4 +141,3 @@ def window_audio_samples(waveform, window = WINDOW_SIZE, hop=HOP_SIZE, cap_lengt
         windows = [windows[i] for i in idx]
 
     return windows
-

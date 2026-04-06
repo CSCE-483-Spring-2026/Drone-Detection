@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import DataLoader
-from data_loader import load_drone_audio_dataset, train_valid_split, DroneAudioDataset
+from .data_loader import load_drone_audio_dataset, train_valid_split, DroneAudioDataset
 import numpy as np
 
 class LogisticRegressionModel(torch.nn.Module):
