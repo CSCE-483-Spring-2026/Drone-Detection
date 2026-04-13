@@ -1,0 +1,466 @@
+Using device: cuda
+Hugging Face Dataset loaded successfully!
+large: found 1233 wav files -> label 2
+small: found 1912 wav files -> label 1
+Local drone audio dataset loaded successfully!
+Training label distribution: Counter({0: 2400, 1: 1529, 2: 986})
+Validation label distribution: Counter({0: 600, 1: 383, 2: 247})
+mean/std shape: torch.Size([4032]), torch.Size([4032])
+mean stats: -1.7465240955352783 8.671780586242676 5.588318347930908 1.75924813747406
+std stats: 11.101520538330078 18.68143653869629 13.515528678894043 1.5301175117492676
+first batch class counts: Counter({0: 483, 1: 430, 2: 111})
+Window-level class counts: Counter({0: 18996, 1: 14557, 2: 6770})
+Class weights: tensor([0.7076, 0.9233, 1.9854], device='cuda:0')
+Predicted counts: Counter({np.int64(0): 4510, np.int64(1): 4234, np.int64(2): 1365})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 1/50 - Train Loss: 0.6320, Train Accuracy: 0.8119
+Epoch 1/50 - Valid Loss: 0.3396, Valid Accuracy: 0.9387, Precision: 0.9466278285338853, Recall: 0.9141411986904598, F1 Score: 0.925571202056263
+Per-class Precision: [0.99667406 0.86372225 0.97948718], Per-class Recall: [0.93900146 0.9994534  0.80396873], Per-class F1: [0.9669786  0.92664386 0.88309115]
+Confusion Matrix:
+[[4495  264   28]
+ [   2 3657    0]
+ [  13  313 1337]]
+Predicted counts: Counter({np.int64(0): 4699, np.int64(1): 3449, np.int64(2): 1961})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 2/50 - Train Loss: 0.1275, Train Accuracy: 0.9717
+Epoch 2/50 - Valid Loss: 0.1130, Valid Accuracy: 0.9640, Precision: 0.9437314457033202, Recall: 0.9691266318671717, F1 Score: 0.9540432870719978
+Per-class Precision: [0.99063631 0.99507104 0.845487  ], Per-class Recall: [0.97242532 0.93796119 0.99699339], Per-class F1: [0.98144634 0.96567248 0.91501104]
+Confusion Matrix:
+[[4655   17  115]
+ [  39 3432  188]
+ [   5    0 1658]]
+Predicted counts: Counter({np.int64(0): 4730, np.int64(1): 3578, np.int64(2): 1801})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 3/50 - Train Loss: 0.0543, Train Accuracy: 0.9851
+Epoch 3/50 - Valid Loss: 0.0552, Valid Accuracy: 0.9824, Precision: 0.9709555706791843, Recall: 0.9851521085147322, F1 Score: 0.9774930420087533
+Per-class Precision: [0.99534884 0.99580771 0.92171016], Per-class Recall: [0.98349697 0.97376332 0.99819603], Per-class F1: [0.98938741 0.98466215 0.95842956]
+Confusion Matrix:
+[[4708   15   64]
+ [  19 3563   77]
+ [   3    0 1660]]
+Predicted counts: Counter({np.int64(0): 4482, np.int64(1): 3785, np.int64(2): 1842})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 4/50 - Train Loss: 0.0353, Train Accuracy: 0.9903
+Epoch 4/50 - Valid Loss: 0.0629, Valid Accuracy: 0.9688, Precision: 0.9553792735900934, Recall: 0.9775658378196718, F1 Score: 0.9652038608771264
+Per-class Precision: [0.99955377 0.9653897  0.90119435], Per-class Recall: [0.93586798 0.99863351 0.99819603], Per-class F1: [0.96666307 0.98173025 0.94721826]
+Confusion Matrix:
+[[4480  130  177]
+ [   0 3654    5]
+ [   2    1 1660]]
+Predicted counts: Counter({np.int64(0): 4454, np.int64(1): 3903, np.int64(2): 1752})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 5/50 - Train Loss: 0.0250, Train Accuracy: 0.9936
+Epoch 5/50 - Valid Loss: 0.0749, Valid Accuracy: 0.9664, Precision: 0.9611273280215743, Recall: 0.9756707287890473, F1 Score: 0.9674252460118241
+Per-class Precision: [0.99955097 0.93748399 0.94634703], Per-class Recall: [0.9300188  1.         0.99699339], Per-class F1: [0.96353209 0.9677334  0.97101025]
+Confusion Matrix:
+[[4452  241   94]
+ [   0 3659    0]
+ [   2    3 1658]]
+Predicted counts: Counter({np.int64(0): 4390, np.int64(1): 3472, np.int64(2): 2247})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 6/50 - Train Loss: 0.0194, Train Accuracy: 0.9951
+Epoch 6/50 - Valid Loss: 0.1255, Valid Accuracy: 0.9392, Precision: 0.9103897789645453, Recall: 0.9524959788778401, F1 Score: 0.9241536992148204
+Per-class Precision: [1.         0.99107143 0.74009791], Per-class Recall: [0.91706706 0.94042088 1.        ], Per-class F1: [0.95673968 0.96508204 0.85063939]
+Confusion Matrix:
+[[4390   31  366]
+ [   0 3441  218]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4693, np.int64(1): 3217, np.int64(2): 2199})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 7/50 - Train Loss: 0.0151, Train Accuracy: 0.9965
+Epoch 7/50 - Valid Loss: 0.1142, Valid Accuracy: 0.9463, Precision: 0.9179948751331771, Recall: 0.9523750373390022, F1 Score: 0.9282281208117157
+Per-class Precision: [0.99957383 0.99906745 0.75534334], Per-class Recall: [0.97994569 0.87838207 0.99879735], Per-class F1: [0.98966245 0.93484584 0.86017607]
+Confusion Matrix:
+[[4691    3   93]
+ [   0 3214  445]
+ [   2    0 1661]]
+Predicted counts: Counter({np.int64(0): 4535, np.int64(1): 3788, np.int64(2): 1786})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 8/50 - Train Loss: 0.0125, Train Accuracy: 0.9973
+Epoch 8/50 - Valid Loss: 0.0486, Valid Accuracy: 0.9746, Precision: 0.9649851210727048, Recall: 0.9817118864761301, F1 Score: 0.9726045082326046
+Per-class Precision: [0.99955899 0.96594509 0.92945129], Per-class Recall: [0.94693963 1.         0.99819603], Per-class F1: [0.97253808 0.98267759 0.96259785]
+Confusion Matrix:
+[[4533  128  126]
+ [   0 3659    0]
+ [   2    1 1660]]
+Predicted counts: Counter({np.int64(0): 4773, np.int64(1): 3642, np.int64(2): 1694})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 9/50 - Train Loss: 0.0129, Train Accuracy: 0.9968
+Epoch 9/50 - Valid Loss: 0.0145, Valid Accuracy: 0.9963, Precision: 0.9932271443899351, Recall: 0.9967970307281839, F1 Score: 0.9949814403462197
+Per-class Precision: [0.99916195 1.         0.98051948], Per-class Recall: [0.99623982 0.99535392 0.99879735], Per-class F1: [0.99769874 0.99767155 0.98957402]
+Confusion Matrix:
+[[4769    0   18]
+ [   2 3642   15]
+ [   2    0 1661]]
+Predicted counts: Counter({np.int64(0): 4783, np.int64(1): 3663, np.int64(2): 1663})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 10/50 - Train Loss: 0.0100, Train Accuracy: 0.9980
+Epoch 10/50 - Valid Loss: 0.0056, Valid Accuracy: 0.9986, Precision: 0.9985042202051758, Recall: 0.9985897806407315, F1 Score: 0.9985468429022318
+Per-class Precision: [0.99895463 0.998362   0.99819603], Per-class Recall: [0.99811991 0.9994534  0.99819603], Per-class F1: [0.9985371  0.9989074  0.99819603]
+Confusion Matrix:
+[[4778    6    3]
+ [   2 3657    0]
+ [   3    0 1660]]
+Predicted counts: Counter({np.int64(0): 4722, np.int64(1): 3678, np.int64(2): 1709})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 11/50 - Train Loss: 0.0076, Train Accuracy: 0.9985
+Epoch 11/50 - Valid Loss: 0.0127, Valid Accuracy: 0.9934, Precision: 0.989040303826167, Recall: 0.9952037787917206, F1 Score: 0.9920431846030313
+Per-class Precision: [0.99978823 0.99483415 0.97249854], Per-class Recall: [0.98621266 1.         0.99939868], Per-class F1: [0.99295404 0.99741039 0.98576512]
+Confusion Matrix:
+[[4721   19   47]
+ [   0 3659    0]
+ [   1    0 1662]]
+Predicted counts: Counter({np.int64(0): 4791, np.int64(1): 3656, np.int64(2): 1662})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 12/50 - Train Loss: 0.0074, Train Accuracy: 0.9984
+Epoch 12/50 - Valid Loss: 0.0046, Valid Accuracy: 0.9992, Precision: 0.9991814274709324, Recall: 0.9989861123062784, F1 Score: 0.9990836256532863
+Per-class Precision: [0.99874765 1.         0.99879663], Per-class Recall: [0.9995822  0.9991801  0.99819603], Per-class F1: [0.99916475 0.99958988 0.99849624]
+Confusion Matrix:
+[[4785    0    2]
+ [   3 3656    0]
+ [   3    0 1660]]
+Predicted counts: Counter({np.int64(0): 4790, np.int64(1): 3658, np.int64(2): 1661})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 13/50 - Train Loss: 0.0057, Train Accuracy: 0.9990
+Epoch 13/50 - Valid Loss: 0.0033, Valid Accuracy: 0.9995, Precision: 0.9995209599904813, Recall: 0.9992379444838537, F1 Score: 0.9993792927907568
+Per-class Precision: [0.99916493 1.         0.99939795], Per-class Recall: [0.9997911  0.9997267  0.99819603], Per-class F1: [0.99947792 0.99986333 0.99879663]
+Confusion Matrix:
+[[4786    0    1]
+ [   1 3658    0]
+ [   3    0 1660]]
+Predicted counts: Counter({np.int64(0): 4795, np.int64(1): 3652, np.int64(2): 1662})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 14/50 - Train Loss: 0.0062, Train Accuracy: 0.9989
+Epoch 14/50 - Valid Loss: 0.0044, Valid Accuracy: 0.9988, Precision: 0.9989037082768143, Recall: 0.9986217140189505, F1 Score: 0.9987621436963741
+Per-class Precision: [0.99791449 1.         0.99879663], Per-class Recall: [0.9995822  0.99808691 0.99819603], Per-class F1: [0.99874765 0.99904254 0.99849624]
+Confusion Matrix:
+[[4785    0    2]
+ [   7 3652    0]
+ [   3    0 1660]]
+Predicted counts: Counter({np.int64(0): 4793, np.int64(1): 3654, np.int64(2): 1662})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 15/50 - Train Loss: 0.0051, Train Accuracy: 0.9991
+Epoch 15/50 - Valid Loss: 0.0035, Valid Accuracy: 0.9992, Precision: 0.9993126173691093, Recall: 0.9990739871666601, F1 Score: 0.9991929857859728
+Per-class Precision: [0.99853954 1.         0.99939832], Per-class Recall: [0.9997911  0.99863351 0.99879735], Per-class F1: [0.99916493 0.99931629 0.99909774]
+Confusion Matrix:
+[[4786    0    1]
+ [   5 3654    0]
+ [   2    0 1661]]
+Predicted counts: Counter({np.int64(0): 4789, np.int64(1): 3657, np.int64(2): 1663})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 16/50 - Train Loss: 0.0043, Train Accuracy: 0.9995
+Epoch 16/50 - Valid Loss: 0.0028, Valid Accuracy: 0.9992, Precision: 0.9990506573220742, Recall: 0.9990075788441991, F1 Score: 0.9990290786508783
+Per-class Precision: [0.99895594 1.         0.99819603], Per-class Recall: [0.9993733  0.9994534  0.99819603], Per-class F1: [0.99916458 0.99972663 0.99819603]
+Confusion Matrix:
+[[4784    0    3]
+ [   2 3657    0]
+ [   3    0 1660]]
+Predicted counts: Counter({np.int64(0): 4796, np.int64(1): 3654, np.int64(2): 1659})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 17/50 - Train Loss: 0.0045, Train Accuracy: 0.9992
+Epoch 17/50 - Valid Loss: 0.0057, Valid Accuracy: 0.9991, Precision: 0.9993744787322769, Recall: 0.9987427382603027, F1 Score: 0.9990576763484197
+Per-class Precision: [0.99812344 1.         1.        ], Per-class Recall: [1.         0.99863351 0.99759471], Per-class F1: [0.99906084 0.99931629 0.99879591]
+Confusion Matrix:
+[[4787    0    0]
+ [   5 3654    0]
+ [   4    0 1659]]
+Predicted counts: Counter({np.int64(0): 4760, np.int64(1): 3640, np.int64(2): 1709})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 18/50 - Train Loss: 0.0051, Train Accuracy: 0.9990
+Epoch 18/50 - Valid Loss: 0.0124, Valid Accuracy: 0.9953, Precision: 0.9908878355321064, Recall: 0.9962497501517644, F1 Score: 0.9935026849076838
+Per-class Precision: [0.99957983 1.         0.97308367], Per-class Recall: [0.99394193 0.99480732 1.        ], Per-class F1: [0.99675291 0.9973969  0.98635824]
+Confusion Matrix:
+[[4758    0   29]
+ [   2 3640   17]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4776, np.int64(1): 3663, np.int64(2): 1670})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 19/50 - Train Loss: 0.0044, Train Accuracy: 0.9992
+Epoch 19/50 - Valid Loss: 0.0026, Valid Accuracy: 0.9989, Precision: 0.9982387940471774, Recall: 0.999234036626976, F1 Score: 0.9987344081669388
+Per-class Precision: [1.         0.998908   0.99580838], Per-class Recall: [0.99770211 1.         1.        ], Per-class F1: [0.99884973 0.9994537  0.99789979]
+Confusion Matrix:
+[[4776    4    7]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4790, np.int64(1): 3658, np.int64(2): 1661})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 20/50 - Train Loss: 0.0038, Train Accuracy: 0.9993
+Epoch 20/50 - Valid Loss: 0.0024, Valid Accuracy: 0.9997, Precision: 0.9997912317327766, Recall: 0.9995080184878994, F1 Score: 0.9996494655844882
+Per-class Precision: [0.9993737 1.        1.       ], Per-class Recall: [1.         0.9997267  0.99879735], Per-class F1: [0.99968675 0.99986333 0.99939832]
+Confusion Matrix:
+[[4787    0    0]
+ [   1 3658    0]
+ [   2    0 1661]]
+Predicted counts: Counter({np.int64(0): 4788, np.int64(1): 3659, np.int64(2): 1662})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 21/50 - Train Loss: 0.0043, Train Accuracy: 0.9991
+Epoch 21/50 - Valid Loss: 0.0016, Valid Accuracy: 0.9997, Precision: 0.9996602014462549, Recall: 0.9995294850258202, F1 Score: 0.999594809478003
+Per-class Precision: [0.99958229 1.         0.99939832], Per-class Recall: [0.9997911  1.         0.99879735], Per-class F1: [0.99968668 1.         0.99909774]
+Confusion Matrix:
+[[4786    0    1]
+ [   0 3659    0]
+ [   2    0 1661]]
+Predicted counts: Counter({np.int64(0): 4815, np.int64(1): 3636, np.int64(2): 1658})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 22/50 - Train Loss: 0.0036, Train Accuracy: 0.9994
+Epoch 22/50 - Valid Loss: 0.0109, Valid Accuracy: 0.9972, Precision: 0.998061613014884, Recall: 0.9969025049971924, F1 Score: 0.9974751752734711
+Per-class Precision: [0.99418484 1.         1.        ], Per-class Recall: [1.         0.99371413 0.99699339], Per-class F1: [0.99708394 0.99684716 0.99849443]
+Confusion Matrix:
+[[4787    0    0]
+ [  23 3636    0]
+ [   5    0 1658]]
+Predicted counts: Counter({np.int64(0): 4788, np.int64(1): 3659, np.int64(2): 1662})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 23/50 - Train Loss: 0.0031, Train Accuracy: 0.9995
+Epoch 23/50 - Valid Loss: 0.0023, Valid Accuracy: 0.9996, Precision: 0.9996785638749938, Recall: 0.9995477268522904, F1 Score: 0.9996131115874719
+Per-class Precision: [0.99958229 0.9994534  1.        ], Per-class Recall: [0.9997911  0.9994534  0.99939868], Per-class F1: [0.99968668 0.9994534  0.99969925]
+Confusion Matrix:
+[[4786    1    0]
+ [   2 3657    0]
+ [   0    1 1662]]
+Predicted counts: Counter({np.int64(0): 4789, np.int64(1): 3656, np.int64(2): 1664})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 24/50 - Train Loss: 0.0027, Train Accuracy: 0.9996
+Epoch 24/50 - Valid Loss: 0.0021, Valid Accuracy: 0.9992, Precision: 0.9992693110690367, Recall: 0.9993356030391061, F1 Score: 0.9993023564092806
+Per-class Precision: [0.99895594 0.99945295 0.99939904], Per-class Recall: [0.9993733  0.99863351 1.        ], Per-class F1: [0.99916458 0.99904306 0.99969943]
+Confusion Matrix:
+[[4784    2    1]
+ [   5 3654    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4788, np.int64(1): 3657, np.int64(2): 1664})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 25/50 - Train Loss: 0.0027, Train Accuracy: 0.9995
+Epoch 25/50 - Valid Loss: 0.0013, Valid Accuracy: 0.9997, Precision: 0.9996604425058372, Recall: 0.9997481678224247, F1 Score: 0.9997042465199808
+Per-class Precision: [0.99958229 1.         0.99939904], Per-class Recall: [0.9997911 0.9994534 1.       ], Per-class F1: [0.99968668 0.99972663 0.99969943]
+Confusion Matrix:
+[[4786    0    1]
+ [   2 3657    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4774, np.int64(1): 3666, np.int64(2): 1669})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 26/50 - Train Loss: 0.0026, Train Accuracy: 0.9996
+Epoch 26/50 - Valid Loss: 0.0042, Valid Accuracy: 0.9985, Precision: 0.9979833470457237, Recall: 0.9989125714154893, F1 Score: 0.99844596093943
+Per-class Precision: [1.         0.99754501 0.99640503], Per-class Recall: [0.99728431 0.9994534  1.        ], Per-class F1: [0.99864031 0.99849829 0.99819928]
+Confusion Matrix:
+[[4774    9    4]
+ [   0 3657    2]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4751, np.int64(1): 3678, np.int64(2): 1680})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 27/50 - Train Loss: 0.0032, Train Accuracy: 0.9994
+Epoch 27/50 - Valid Loss: 0.0085, Valid Accuracy: 0.9962, Precision: 0.9945082083948314, Recall: 0.997092328838925, F1 Score: 0.9957847422356488
+Per-class Precision: [1.         0.99483415 0.98869048], Per-class Recall: [0.99247963 1.         0.99879735], Per-class F1: [0.99622562 0.99741039 0.99371822]
+Confusion Matrix:
+[[4751   17   19]
+ [   0 3659    0]
+ [   0    2 1661]]
+Predicted counts: Counter({np.int64(0): 4780, np.int64(1): 3667, np.int64(2): 1662})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 28/50 - Train Loss: 0.0021, Train Accuracy: 0.9997
+Epoch 28/50 - Valid Loss: 0.0020, Valid Accuracy: 0.9991, Precision: 0.9992030583754463, Recall: 0.9992424947585755, F1 Score: 0.9992221710853192
+Per-class Precision: [0.99979079 0.99781838 1.        ], Per-class Recall: [0.99832881 1.         0.99939868], Per-class F1: [0.99905927 0.998908   0.99969925]
+Confusion Matrix:
+[[4779    8    0]
+ [   0 3659    0]
+ [   1    0 1662]]
+Predicted counts: Counter({np.int64(0): 4784, np.int64(1): 3661, np.int64(2): 1664})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 29/50 - Train Loss: 0.0020, Train Accuracy: 0.9996
+Epoch 29/50 - Valid Loss: 0.0017, Valid Accuracy: 0.9996, Precision: 0.999417259365873, Recall: 0.9995906599281318, F1 Score: 0.9995038719434479
+Per-class Precision: [1.         0.9994537  0.99879808], Per-class Recall: [0.9993733  1.         0.99939868], Per-class F1: [0.99968655 0.99972678 0.99909829]
+Confusion Matrix:
+[[4784    1    2]
+ [   0 3659    0]
+ [   0    1 1662]]
+Predicted counts: Counter({np.int64(0): 4774, np.int64(1): 3666, np.int64(2): 1669})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 30/50 - Train Loss: 0.0020, Train Accuracy: 0.9996
+Epoch 30/50 - Valid Loss: 0.0030, Valid Accuracy: 0.9987, Precision: 0.9981651982914047, Recall: 0.9990947705591533, F1 Score: 0.9986279859678714
+Per-class Precision: [1.         0.99809056 0.99640503], Per-class Recall: [0.99728431 1.         1.        ], Per-class F1: [0.99864031 0.99904437 0.99819928]
+Confusion Matrix:
+[[4774    7    6]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4765, np.int64(1): 3672, np.int64(2): 1672})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 31/50 - Train Loss: 0.0014, Train Accuracy: 0.9998
+Epoch 31/50 - Valid Loss: 0.0053, Valid Accuracy: 0.9978, Precision: 0.9970256399564965, Recall: 0.9984680732539517, F1 Score: 0.9977416250813104
+Per-class Precision: [1.         0.99645969 0.99461722], Per-class Recall: [0.99540422 1.         1.        ], Per-class F1: [0.99769682 0.99822671 0.99730135]
+Confusion Matrix:
+[[4765   13    9]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4777, np.int64(1): 3669, np.int64(2): 1663})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 32/50 - Train Loss: 0.0016, Train Accuracy: 0.9998
+Epoch 32/50 - Valid Loss: 0.0027, Valid Accuracy: 0.9990, Precision: 0.9990914872353956, Recall: 0.9993036696608871, F1 Score: 0.999196594519599
+Per-class Precision: [1.         0.99727446 1.        ], Per-class Recall: [0.99791101 1.         1.        ], Per-class F1: [0.99895441 0.99863537 1.        ]
+Confusion Matrix:
+[[4777   10    0]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4764, np.int64(1): 3666, np.int64(2): 1679})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 33/50 - Train Loss: 0.0018, Train Accuracy: 0.9995
+Epoch 33/50 - Valid Loss: 0.0046, Valid Accuracy: 0.9977, Precision: 0.996187026695308, Recall: 0.9983984402200404, F1 Score: 0.9972828971443811
+Per-class Precision: [1.         0.99809056 0.99047052], Per-class Recall: [0.99519532 1.         1.        ], Per-class F1: [0.99759188 0.99904437 0.99521245]
+Confusion Matrix:
+[[4764    7   16]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4788, np.int64(1): 3663, np.int64(2): 1658})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 34/50 - Train Loss: 0.0019, Train Accuracy: 0.9998
+Epoch 34/50 - Valid Loss: 0.0048, Valid Accuracy: 0.9985, Precision: 0.9988060514376303, Recall: 0.9982370651964535, F1 Score: 0.9985207008968766
+Per-class Precision: [0.99832916 0.998089   1.        ], Per-class Recall: [0.99853771 0.9991801  0.99699339], Per-class F1: [0.99843342 0.99863425 0.99849443]
+Confusion Matrix:
+[[4780    7    0]
+ [   3 3656    0]
+ [   5    0 1658]]
+Predicted counts: Counter({np.int64(0): 4782, np.int64(1): 3661, np.int64(2): 1666})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 35/50 - Train Loss: 0.0035, Train Accuracy: 0.9989
+Epoch 35/50 - Valid Loss: 0.0019, Valid Accuracy: 0.9993, Precision: 0.9990569046498834, Recall: 0.9994911022247003, F1 Score: 0.9992736171647323
+Per-class Precision: [0.99979088 0.99918055 0.99819928], Per-class Recall: [0.99874661 0.9997267  1.        ], Per-class F1: [0.99926847 0.99945355 0.99909883]
+Confusion Matrix:
+[[4781    3    3]
+ [   1 3658    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4788, np.int64(1): 3651, np.int64(2): 1670})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 36/50 - Train Loss: 0.0017, Train Accuracy: 0.9997
+Epoch 36/50 - Valid Loss: 0.0032, Valid Accuracy: 0.9986, Precision: 0.9979854826687476, Recall: 0.9987225972856532, F1 Score: 0.998352171220951
+Per-class Precision: [0.99874687 1.         0.99520958], Per-class Recall: [0.9989555  0.99781361 0.99939868], Per-class F1: [0.99885117 0.99890561 0.99729973]
+Confusion Matrix:
+[[4782    0    5]
+ [   5 3651    3]
+ [   1    0 1662]]
+Predicted counts: Counter({np.int64(0): 4801, np.int64(1): 3980, np.int64(2): 1328})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 37/50 - Train Loss: 0.0045, Train Accuracy: 0.9987
+Epoch 37/50 - Valid Loss: 0.1796, Valid Accuracy: 0.9665, Precision: 0.9718658382518717, Recall: 0.932573742869366, F1 Score: 0.9478938611699294
+Per-class Precision: [0.99625078 0.91934673 1.        ], Per-class Recall: [0.9991644  1.         0.79855683], Per-class F1: [0.99770547 0.95797879 0.88799733]
+Confusion Matrix:
+[[4783    4    0]
+ [   0 3659    0]
+ [  18  317 1328]]
+Predicted counts: Counter({np.int64(0): 4782, np.int64(1): 3658, np.int64(2): 1669})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 38/50 - Train Loss: 0.0044, Train Accuracy: 0.9991
+Epoch 38/50 - Valid Loss: 0.0031, Valid Accuracy: 0.9991, Precision: 0.9984411269424524, Recall: 0.9991995616827339, F1 Score: 0.9988191688734713
+Per-class Precision: [0.99979088 0.99972663 0.99580587], Per-class Recall: [0.99874661 0.9994534  0.99939868], Per-class F1: [0.99926847 0.99959    0.99759904]
+Confusion Matrix:
+[[4781    0    6]
+ [   1 3657    1]
+ [   0    1 1662]]
+Predicted counts: Counter({np.int64(0): 4780, np.int64(1): 3667, np.int64(2): 1662})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 39/50 - Train Loss: 0.0017, Train Accuracy: 0.9998
+Epoch 39/50 - Valid Loss: 0.0028, Valid Accuracy: 0.9991, Precision: 0.999072231810017, Recall: 0.9991116868223524, F1 Score: 0.9990913538153227
+Per-class Precision: [1.         0.99781838 0.99939832], Per-class Recall: [0.99853771 1.         0.99879735], Per-class F1: [0.99926832 0.998908   0.99909774]
+Confusion Matrix:
+[[4780    6    1]
+ [   0 3659    0]
+ [   0    2 1661]]
+Predicted counts: Counter({np.int64(0): 4785, np.int64(1): 3661, np.int64(2): 1663})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 40/50 - Train Loss: 0.0014, Train Accuracy: 0.9998
+Epoch 40/50 - Valid Loss: 0.0013, Valid Accuracy: 0.9998, Precision: 0.9998179003915141, Recall: 0.9998607339321773, F1 Score: 0.9998392777355325
+Per-class Precision: [1.        0.9994537 1.       ], Per-class Recall: [0.9995822 1.        1.       ], Per-class F1: [0.99979106 0.99972678 1.        ]
+Confusion Matrix:
+[[4785    2    0]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4782, np.int64(1): 3662, np.int64(2): 1665})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 41/50 - Train Loss: 0.0009, Train Accuracy: 0.9998
+Epoch 41/50 - Valid Loss: 0.0011, Valid Accuracy: 0.9995, Precision: 0.9993265247770983, Recall: 0.9996518348304435, F1 Score: 0.999488912579095
+Per-class Precision: [1.         0.99918078 0.9987988 ], Per-class Recall: [0.9989555 1.        1.       ], Per-class F1: [0.99947748 0.99959022 0.99939904]
+Confusion Matrix:
+[[4782    3    2]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4754, np.int64(1): 3666, np.int64(2): 1689})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 42/50 - Train Loss: 0.0008, Train Accuracy: 0.9999
+Epoch 42/50 - Valid Loss: 0.0062, Valid Accuracy: 0.9967, Precision: 0.9942322792744168, Recall: 0.9977021098809274, F1 Score: 0.9959430161370476
+Per-class Precision: [1.         0.99809056 0.98460628], Per-class Recall: [0.99310633 1.         1.        ], Per-class F1: [0.99654124 0.99904437 0.99224344]
+Confusion Matrix:
+[[4754    7   26]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4775, np.int64(1): 3672, np.int64(2): 1662})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 43/50 - Train Loss: 0.0008, Train Accuracy: 0.9999
+Epoch 43/50 - Valid Loss: 0.0038, Valid Accuracy: 0.9986, Precision: 0.9986193367572995, Recall: 0.9987635216527959, F1 Score: 0.9986898284263521
+Per-class Precision: [1.         0.99645969 0.99939832], Per-class Recall: [0.99749321 1.         0.99879735], Per-class F1: [0.99874503 0.99822671 0.99909774]
+Confusion Matrix:
+[[4775   11    1]
+ [   0 3659    0]
+ [   0    2 1661]]
+Predicted counts: Counter({np.int64(0): 4785, np.int64(1): 3661, np.int64(2): 1663})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 44/50 - Train Loss: 0.0004, Train Accuracy: 1.0000
+Epoch 44/50 - Valid Loss: 0.0012, Valid Accuracy: 0.9996, Precision: 0.9995477972827521, Recall: 0.9995906599281318, F1 Score: 0.9995691891821693
+Per-class Precision: [0.99979101 0.9994537  0.99939868], Per-class Recall: [0.9993733  1.         0.99939868], Per-class F1: [0.99958211 0.99972678 0.99939868]
+Confusion Matrix:
+[[4784    2    1]
+ [   0 3659    0]
+ [   1    0 1662]]
+Predicted counts: Counter({np.int64(0): 4785, np.int64(1): 3660, np.int64(2): 1664})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 45/50 - Train Loss: 0.0006, Train Accuracy: 0.9999
+Epoch 45/50 - Valid Loss: 0.0011, Valid Accuracy: 0.9996, Precision: 0.9994386221544925, Recall: 0.9995906599281318, F1 Score: 0.9995145901860631
+Per-class Precision: [0.99979101 0.99972678 0.99879808], Per-class Recall: [0.9993733  1.         0.99939868], Per-class F1: [0.99958211 0.99986337 0.99909829]
+Confusion Matrix:
+[[4784    1    2]
+ [   0 3659    0]
+ [   1    0 1662]]
+Predicted counts: Counter({np.int64(0): 4810, np.int64(1): 3640, np.int64(2): 1659})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 46/50 - Train Loss: 0.0062, Train Accuracy: 0.9981
+Epoch 46/50 - Valid Loss: 0.0076, Valid Accuracy: 0.9975, Precision: 0.9980042499029841, Recall: 0.997066462314386, F1 Score: 0.9975307111938312
+Per-class Precision: [0.9952183  1.         0.99879445], Per-class Recall: [1.         0.99480732 0.99639206], Per-class F1: [0.99760342 0.9973969  0.99759181]
+Confusion Matrix:
+[[4787    0    0]
+ [  17 3640    2]
+ [   6    0 1657]]
+Predicted counts: Counter({np.int64(0): 4782, np.int64(1): 3662, np.int64(2): 1665})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 47/50 - Train Loss: 0.0012, Train Accuracy: 0.9997
+Epoch 47/50 - Valid Loss: 0.0014, Valid Accuracy: 0.9995, Precision: 0.9993265247770983, Recall: 0.9996518348304435, F1 Score: 0.999488912579095
+Per-class Precision: [1.         0.99918078 0.9987988 ], Per-class Recall: [0.9989555 1.        1.       ], Per-class F1: [0.99947748 0.99959022 0.99939904]
+Confusion Matrix:
+[[4782    3    2]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4768, np.int64(1): 3667, np.int64(2): 1674})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 48/50 - Train Loss: 0.0009, Train Accuracy: 0.9999
+Epoch 48/50 - Valid Loss: 0.0039, Valid Accuracy: 0.9981, Precision: 0.9970824309770036, Recall: 0.9986769723556855, F1 Score: 0.9978743790722042
+Per-class Precision: [1.         0.99781838 0.99342891], Per-class Recall: [0.99603092 1.         1.        ], Per-class F1: [0.99801151 0.998908   0.99670363]
+Confusion Matrix:
+[[4768    8   11]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4784, np.int64(1): 3659, np.int64(2): 1666})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 49/50 - Train Loss: 0.0004, Train Accuracy: 1.0000
+Epoch 49/50 - Valid Loss: 0.0010, Valid Accuracy: 0.9997, Precision: 0.9993997599039616, Recall: 0.9997911008982662, F1 Score: 0.9995951272020882
+Per-class Precision: [1.         1.         0.99819928], Per-class Recall: [0.9993733 1.        1.       ], Per-class F1: [0.99968655 1.         0.99909883]
+Confusion Matrix:
+[[4784    0    3]
+ [   0 3659    0]
+ [   0    0 1663]]
+Predicted counts: Counter({np.int64(0): 4778, np.int64(1): 3662, np.int64(2): 1669})
+True counts: Counter({np.int64(0): 4787, np.int64(1): 3659, np.int64(2): 1663})
+Epoch 50/50 - Train Loss: 0.0003, Train Accuracy: 1.0000
+Epoch 50/50 - Valid Loss: 0.0018, Valid Accuracy: 0.9989, Precision: 0.9982591182403207, Recall: 0.9991032286907529, F1 Score: 0.9986797444647335
+Per-class Precision: [0.99979071 0.99918078 0.99580587], Per-class Recall: [0.99791101 1.         0.99939868], Per-class F1: [0.99884997 0.99959022 0.99759904]
+Confusion Matrix:
+[[4777    3    7]
+ [   0 3659    0]
+ [   1    0 1662]]
+Train set - Non-drone windows: 950285, Small drone windows: 728280, Large drone windows: 338611
+Validation set - Non-drone windows: 239350, Small drone windows: 182950, Large drone windows: 83150
+Best Validation Accuracy: 0.9998, F1 Score: 0.9998, Precision: 0.9998, Recall: 0.9999 from epoch 40

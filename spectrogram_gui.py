@@ -7,8 +7,8 @@ import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from amplify import amplify
-from data_loader import load_drone_audio_dataset, window_audio_samples, SAMPLING_RATE
+from cnn_prediction.amplify import amplify
+from cnn_prediction.data_loader import load_drone_audio_dataset, window_audio_samples, SAMPLING_RATE
 
 BG = "#050814"
 PANEL = "#0a1024"
