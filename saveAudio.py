@@ -4,7 +4,8 @@ import serial
 from pathlib import Path
 import threading
 from datetime import datetime
-from prediction.inference_server import StatusWindow, InferenceEngine
+import numpy as np
+from cnn_prediction.cnn_inference_server import StatusWindow, InferenceEngine
 
 OUTPUT_DIR = Path("captures")
 OUTPUT_DIR.mkdir(exist_ok=True)
@@ -47,7 +48,7 @@ def stream_to_file(ser, total_bytes, filename):
     print(f"Saved {filename}")
 
 def capture_and_predict(status_window, port, baud):
-    engine = InferenceEngine(threshold=0.64, detailed_logging=True)
+    engine = InferenceEngine(detailed_logging=True)
 
     cooldown_until = 0.0
     COOLDOWN = 3.0
@@ -93,11 +94,19 @@ def capture_and_predict(status_window, port, baud):
             stream_to_file(ser, total_audio_bytes + 44, filename)
 
             try:
-                result = engine.predict(filename)
-                pred = result["prediction"]
-                prob = result["probability"]
-                print(f"Prediction: {pred} (probability: {prob:.2f})")
-                status_window.root.after(0, lambda: status_window.set_result(pred, hold_ms=3000))
+                waveform = engine.load_waveform(filename)
+                pred, prob = engine.predict(waveform)
+                
+                avg_probs = prob.mean(dim=0)
+                final_pred = int(np.argmax(avg_probs.cpu().numpy()))
+                final_confidence = float(avg_probs[final_pred].item())
+
+
+                print(f"Window predictions: {pred.cpu().numpy()}")
+                print(f"average probabilities: {avg_probs.cpu().numpy()}")
+                print(f"Final prediction: {final_pred} with confidence {final_confidence:.4f}")
+
+                status_window.root.after(0, lambda: status_window.set_result(final_pred, hold_ms=3000))
                 cooldown_until = time.time() + COOLDOWN
             except Exception as e:  
                 print(f"Error during prediction: {e}")
