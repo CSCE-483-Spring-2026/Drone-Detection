@@ -83,11 +83,11 @@ def load_hf_non_drone_dataset():
     none_drone_ds = none_drone_ds.cast_column('label', Value('int64'))
 
     # only keep a subset of the non-drone samples to balance the dataset and reduce overfitting on long non-drone audio
-    none_drone_ds = none_drone_ds.shuffle(seed=42).select(range(3000))  # select 3000 non-drone samples, which will be further split into train and valid sets
+    none_drone_ds = none_drone_ds.shuffle(seed=42).select(range(300))  # select 3000 non-drone samples, which will be further split into train and valid sets
 
     return none_drone_ds
 
-def load_local_drone_audio_dataset(local_dir="/home/luke_gut/Drone-Detection/drone_data"):
+def load_local_drone_audio_dataset(local_dir="/home/luke/Drone-Detection/droneDataV2"):
     """ Loads the local drone audio dataset from the specified directory.
     The directory should have subfolders for each class (large, medium, small, non_drone) containing the respective audio files.
     Args:

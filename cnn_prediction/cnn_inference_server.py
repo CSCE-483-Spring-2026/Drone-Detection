@@ -127,10 +127,14 @@ class StatusWindow:
 
 class InferenceEngine:
     def __init__(self, model_path="./best_cnn_model.pth", device=None, detailed_logging=False):
+        
+              
         self.device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.detailed_logging = detailed_logging
 
         checkpoint = torch.load(model_path, map_location=self.device)
+        print(f"Checkpoint keys: {checkpoint.keys()}")
+
         self.input_h = checkpoint["spec_h"]
         self.input_w = checkpoint["spec_w"]
         self.num_classes = checkpoint["num_classes"]
@@ -198,3 +202,31 @@ class InferenceEngine:
             print(f"Predicted classes: {predicted_classes.tolist()}")
 
         return predicted_classes.cpu().numpy(), probabilities.cpu().numpy()
+
+def main():
+    status_window = StatusWindow()
+    engine = InferenceEngine(detailed_logging=True)
+
+    # Run the Tkinter main loop in a separate thread so it doesn't block
+    threading.Thread(target=status_window.run, daemon=True).start()
+
+    file = "/home/luke/Drone-Detection/unknown/clip_20260415_175347_702027.wav"
+
+    try:
+        waveform = engine.load_waveform(file)
+        features = extract_features_and_window(waveform)
+        window_preds, window_probs = engine.predict(features)
+
+        avg_probs = window_probs.mean(axis=0)
+        final_pred = int(np.argmax(avg_probs))
+        final_confidence = float(avg_probs[final_pred])
+        print(f"Window predictions: {window_preds}")
+        print(f"Average probabilities: {avg_probs}")
+        print(f"Final prediction: {final_pred} with confidence {final_confidence:.4f}")
+        status_window.root.after(0, lambda p=final_pred: status_window.set_result(p, hold_ms=3000))
+    except Exception as e:
+        print(f"Error during prediction: {e}")
+        status_window.root.after(0, lambda: status_window.set_resting_state("Nothing detected. Waiting for audio..."))
+    
+if __name__ == "__main__":
+    main()

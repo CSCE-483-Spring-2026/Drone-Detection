@@ -146,10 +146,10 @@ def main():
     train_ds = train_ds.shuffle(seed=42)
     valid_ds = valid_ds.shuffle(seed=42)
 
-    train_loader = DataLoader(DroneAudioDataset(train_ds,train=True, cap_length=10), batch_size=1024, pin_memory=True)
-    valid_loader = DataLoader(DroneAudioDataset(valid_ds, train=False, cap_length=10), batch_size=1024, pin_memory=True)
+    train_loader = DataLoader(DroneAudioDataset(train_ds,train=True, cap_length=10), batch_size=64, pin_memory=True)
+    valid_loader = DataLoader(DroneAudioDataset(valid_ds, train=False, cap_length=10), batch_size=64, pin_memory=True)
 
-    train_loader_for_mean_std = DataLoader(DroneAudioDataset(train_ds,train=False, cap_length=10), batch_size=1024, pin_memory=True)
+    train_loader_for_mean_std = DataLoader(DroneAudioDataset(train_ds,train=False, cap_length=10), batch_size=64, pin_memory=True)
     mean, std = compute_feature_mean_std(train_loader_for_mean_std, device=device)
 
     print(f"mean/std shape: {mean.shape}, {std.shape}")
@@ -173,7 +173,7 @@ def main():
         print("Window-level class counts:", counts)
         return counts
     
-    count_loader = DataLoader(DroneAudioDataset(train_ds,train=False, cap_length=10), batch_size=1024, pin_memory=True)
+    count_loader = DataLoader(DroneAudioDataset(train_ds,train=False, cap_length=10), batch_size=64, pin_memory=True)
 
     counts = compute_window_class_counts(count_loader)
     class_counts = torch.tensor([counts[0], counts[1], counts[2]], dtype=torch.float32, device=device)
@@ -183,7 +183,7 @@ def main():
     print("Class weights:", class_weights)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-5)
 
-    num_epochs = 50
+    num_epochs = 3
     best_accuracy = 0.0
     best_valid_f1 = 0.0
     best_precision = 0.0
@@ -212,6 +212,11 @@ def main():
                 "spec_w": SPEC_W,
                 "feat_mean": mean.detach().cpu(),
                 "feat_std": std.detach().cpu(),
+                "epoch" : epoch + 1,
+                "accuracy": valid_acc,
+                "precision": valid_precision,
+                "recall": valid_recall,
+                "f1_score": valid_f1
             }, "best_cnn_model.pth")
 
     # print small drone, large drone, non-drone window counts in train and valid sets
