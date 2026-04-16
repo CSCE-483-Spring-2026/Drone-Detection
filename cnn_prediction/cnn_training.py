@@ -183,7 +183,7 @@ def main():
     print("Class weights:", class_weights)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-5)
 
-    num_epochs = 3
+    num_epochs = 75
     best_accuracy = 0.0
     best_valid_f1 = 0.0
     best_precision = 0.0
@@ -216,7 +216,8 @@ def main():
                 "accuracy": valid_acc,
                 "precision": valid_precision,
                 "recall": valid_recall,
-                "f1_score": valid_f1
+                "f1_score": valid_f1,
+                "confusion_matrix": confusion_mat,
             }, "best_cnn_model.pth")
 
     # print small drone, large drone, non-drone window counts in train and valid sets

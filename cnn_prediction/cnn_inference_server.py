@@ -126,7 +126,7 @@ class StatusWindow:
 
 
 class InferenceEngine:
-    def __init__(self, model_path="./best_cnn_model.pth", device=None, detailed_logging=False):
+    def __init__(self, model_path="./final_model.pth", device=None, detailed_logging=False):
         
               
         self.device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -134,6 +134,8 @@ class InferenceEngine:
 
         checkpoint = torch.load(model_path, map_location=self.device)
         print(f"Checkpoint keys: {checkpoint.keys()}")
+        print(f"checkpoiint epoch: {checkpoint.get('epoch', 'N/A')}")
+        print(f"checkpoint accuracy: {checkpoint['accuracy']:.4f}, precision: {checkpoint['precision']:.4f}, recall: {checkpoint['recall']:.4f}, f1_score: {checkpoint['f1_score']:.4f}")
 
         self.input_h = checkpoint["spec_h"]
         self.input_w = checkpoint["spec_w"]
