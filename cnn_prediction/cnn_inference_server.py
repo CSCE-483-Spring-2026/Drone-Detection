@@ -39,8 +39,8 @@ class StatusWindow:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Drone Detector")
-        self.root.geometry("800x400")
-        self.root.resizable(False, False)
+        self.root.geometry("1200x1600")
+        self.root.resizable(True, True)
 
         self.label = tk.Label(
             self.root,
@@ -126,16 +126,17 @@ class StatusWindow:
 
 
 class InferenceEngine:
-    def __init__(self, model_path="./final_model.pth", device=None, detailed_logging=False):
+    def __init__(self, model_path="./backsup_model.pth", device=None, detailed_logging=False):
         
               
         self.device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.detailed_logging = detailed_logging
 
-        checkpoint = torch.load(model_path, map_location=self.device)
+        checkpoint = torch.load(model_path, map_location=self.device, weights_only=False)
         print(f"Checkpoint keys: {checkpoint.keys()}")
         print(f"checkpoiint epoch: {checkpoint.get('epoch', 'N/A')}")
         print(f"checkpoint accuracy: {checkpoint['accuracy']:.4f}, precision: {checkpoint['precision']:.4f}, recall: {checkpoint['recall']:.4f}, f1_score: {checkpoint['f1_score']:.4f}")
+        print(f"confusion matrix:\n{checkpoint.get('confusion_matrix', 'N/A')}")
 
         self.input_h = checkpoint["spec_h"]
         self.input_w = checkpoint["spec_w"]
@@ -229,6 +230,6 @@ def main():
     except Exception as e:
         print(f"Error during prediction: {e}")
         status_window.root.after(0, lambda: status_window.set_resting_state("Nothing detected. Waiting for audio..."))
-    
+
 if __name__ == "__main__":
     main()

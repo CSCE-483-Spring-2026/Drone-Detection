@@ -168,6 +168,10 @@ def main():
                     avg_probs = window_probs.mean(axis=0)
                     final_pred = int(np.argmax(avg_probs))
                     final_confidence = float(avg_probs[final_pred])
+                    if avg_probs[2] < 0.985 and avg_probs[0] > avg_probs[1]:
+                        final_pred = 0  # Override to "nothing" if confidence is low and "nothing" is more likely than "drone"
+                    elif avg_probs[2] < 0.985 and avg_probs[1] > avg_probs[0]:
+                        final_pred = 1  # Override to "small drone" if confidence is low and "small drone" is more likely than "nothing"
 
                     print(f"Window predictions: {window_preds}")
                     print(f"Average probabilities: {avg_probs}")

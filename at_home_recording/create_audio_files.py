@@ -7,7 +7,7 @@ import sounddevice as sd
 import numpy as np
 
 
-# =========================
+# ====================A=====
 # CONFIGURATION
 # =========================
 OUTPUT_DIR = "/home/luke_gut/Drone-Detection/test"
