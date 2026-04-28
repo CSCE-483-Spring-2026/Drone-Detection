@@ -1,4 +1,4 @@
-# 🚁 Drone Detection System
+# Harmonic-Based Drone Detection System
 
 > An acoustic drone detection system using FFT-based signal processing on embedded hardware and machine learning classifiers (CNN and Logistic Regression) for real-time drone identification.
 
